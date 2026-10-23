@@ -1,0 +1,263 @@
+:root {
+  color-scheme: light;
+  font-family: "Courier New", Courier, monospace;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100svh;
+  overflow: hidden;
+  background: #fff;
+}
+
+.page-shell {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #fff url("assets/sportlink-background.jpg") left top / contain no-repeat;
+}
+
+.login-card {
+  position: absolute;
+  top: 10.15%;
+  left: 65.05%;
+  width: 29.7%;
+  height: 74.8%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.7% 1.2% 1.8%;
+  color: #fff;
+  background: #260000;
+  border: clamp(3px, 0.4vw, 5px) solid #f90606;
+  border-radius: 5px;
+  box-shadow: clamp(5px, 0.8vw, 10px) clamp(5px, 1vw, 11px) 0 rgba(255, 43, 43, 0.23);
+}
+
+.brand-mark {
+  width: 23%;
+  aspect-ratio: 1;
+  flex: 0 0 auto;
+}
+
+.brand-mark svg,
+.profile-mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.wing {
+  fill: #fa4b1e;
+}
+
+.bird-body,
+.bird-head,
+.bird-beak {
+  fill: #f76a25;
+}
+
+.bird-beak {
+  fill: #ff9e38;
+}
+
+h1 {
+  margin: 1.3% 0 0;
+  color: #fff;
+  font-size: clamp(1.35rem, 3.85vw, 2.05rem);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: 0.02em;
+}
+
+.profile-mark {
+  width: 25%;
+  aspect-ratio: 1;
+  margin-top: 7.2%;
+}
+
+.login-form {
+  width: 79%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.5%;
+}
+
+.login-form input {
+  width: 100%;
+  height: clamp(21px, 5.8%, 32px);
+  min-height: 22px;
+  margin: 0 0 2.5%;
+  padding: 0 0.8em;
+  color: #fff;
+  caret-color: #fff;
+  font: inherit;
+  font-size: clamp(0.65rem, 1.45vw, 0.9rem);
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  outline: none;
+}
+
+.login-form input:focus {
+  border-color: #ff3b3b;
+  box-shadow: 0 0 0 2px rgba(255, 53, 53, 0.35);
+}
+
+.forgot-link {
+  margin-top: 0.5%;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: clamp(0.35rem, 0.66vw, 0.52rem);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.forgot-link:hover,
+.forgot-link:focus-visible {
+  color: #ff8585;
+  text-decoration: underline;
+}
+
+.login-form button {
+  width: 48%;
+  min-height: 24px;
+  margin-top: 8.5%;
+  padding: 0.16em 0.65em 0.22em;
+  color: #fff;
+  font: 700 clamp(0.75rem, 1.6vw, 1rem) Arial, sans-serif;
+  line-height: 1;
+  background: #fa0707;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.login-form button:hover,
+.login-form button:focus-visible {
+  background: #ff2929;
+  box-shadow: 0 0 0 3px rgba(255, 88, 88, 0.3);
+  transform: translateY(-1px);
+}
+
+.login-form button:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.form-message {
+  min-height: 0;
+  margin: 5% 0 0;
+  color: #ffb1b1;
+  font-family: Arial, sans-serif;
+  font-size: clamp(0.5rem, 0.7vw, 0.62rem);
+  text-align: center;
+}
+
+.mobile-athletes {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  body {
+    overflow: auto;
+    background: #fff;
+  }
+
+  .page-shell {
+    min-height: 100svh;
+    padding: 31svh 7vw 8vw;
+    background: #fff url("assets/sportlink-background.jpg") left top / 100% auto no-repeat;
+  }
+
+  .mobile-athletes {
+    display: none;
+  }
+
+  .login-card {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    min-height: 61svh;
+    padding: 4vw 7vw 8vw;
+    border-width: 4px;
+    border-radius: 6px;
+  }
+
+  .brand-mark {
+    width: 18vw;
+    max-width: 74px;
+  }
+
+  h1 {
+    margin-top: 2vw;
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .profile-mark {
+    width: 22vw;
+    max-width: 96px;
+    margin-top: 7vw;
+  }
+
+  .login-form {
+    width: 80%;
+    margin-top: 5vw;
+  }
+
+  .login-form input {
+    height: 42px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+
+  .forgot-link {
+    font-size: 0.64rem;
+  }
+
+  .login-form button {
+    width: 48%;
+    min-height: 38px;
+    margin-top: 28px;
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-form button {
+    transition: none;
+  }
+}

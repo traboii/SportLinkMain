@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#260000" />
+    <title>SportLink | Welcome</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell" aria-labelledby="welcome-title">
+      <div class="mobile-athletes" aria-hidden="true"></div>
+
+      <section class="login-card" aria-label="SportLink login">
+        <div class="brand-mark" aria-label="SportLink emblem">
+          <img src="assets/orange-ccs-sportshub.png" alt="" aria-hidden="true" />
+        </div>
+
+        <h1 id="welcome-title">Welcome!</h1>
+
+        <div class="profile-mark" aria-hidden="true">
+          <svg viewBox="0 0 72 72" role="img">
+            <circle cx="36" cy="36" r="31" fill="none" stroke="white" stroke-width="3" />
+            <circle cx="36" cy="25" r="11" fill="white" />
+            <path d="M16 59c3-13 11-20 20-20s17 7 20 20" fill="white" />
+            <path d="M25 37c4 7 10 10 19 10" fill="none" stroke="#2a0000" stroke-width="1.4" opacity=".7" />
+          </svg>
+        </div>
+
+        <form class="login-form" id="login-form">
+          <label class="sr-only" for="username">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" aria-label="Username" />
+
+          <label class="sr-only" for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" aria-label="Password" />
+
+          <a class="forgot-link" href="#forgot-password">Forgot Password?</a>
+          <button type="submit">Login</button>
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
