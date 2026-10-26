@@ -261,3 +261,118 @@ h1 {
     transition: none;
   }
 }
+
+.login-card {
+  height: auto;
+  min-height: 75%;
+  padding: 1.2% 1.5% 1.4%;
+  justify-content: flex-start;
+}
+.login-form { margin-top: 2.2%; }
+.auth-heading {
+  margin: 0 0 5%;
+  font: 0.72rem Arial, sans-serif;
+  text-align: center;
+}
+.login-form input { min-height: 34px; margin-bottom: 3%; }
+.login-form .primary-button,
+.primary-button {
+  width: 68%;
+  min-height: 36px;
+  margin-top: 7%;
+}
+.form-message { min-height: 1em; }
+.success-message { color: #b9ffc6; }
+.text-button {
+  margin-top: 4%;
+  padding: 4px;
+  color: #fff;
+  font: 0.72rem Arial, sans-serif;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.text-button:hover { text-decoration: underline; }
+.divider {
+  width: 78%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 3% 0;
+  color: #d7bcbc;
+  font: 0.65rem Arial, sans-serif;
+}
+.divider::before, .divider::after { content: ""; height: 1px; flex: 1; background: #815858; }
+.google-signin { min-height: 40px; }
+.google-note {
+  margin: 2% 0 0;
+  color: #d7bcbc;
+  font: 0.62rem Arial, sans-serif;
+  text-align: center;
+}
+.success-card {
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+.success-card h1 { margin-top: 4%; }
+.signed-in-email { max-width: 100%; overflow-wrap: anywhere; font: 0.9rem Arial, sans-serif; }
+.logout-button { margin: 4% auto 0; }
+[hidden] { display: none !important; }
+.login-form button:disabled { opacity: .7; cursor: wait; }
+
+@media (max-width: 720px) {
+  .login-card { min-height: 0; padding: 5vw 7vw 6vw; }
+  .auth-heading { margin: 0 0 5vw; font-size: .9rem; }
+  .login-form input { min-height: 42px; margin-bottom: 12px; }
+  .login-form .primary-button, .primary-button { min-height: 40px; margin-top: 18px; }
+  .text-button { margin-top: 4vw; font-size: .82rem; }
+  .divider { margin: 3vw 0; }
+  .google-note { margin-top: 2vw; font-size: .72rem; }
+  .success-card { min-height: 55svh; }
+}
+
+/* Account mode switch */
+.text-button {
+  position: relative;
+  display: flex;
+  width: min(79%, 280px);
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  margin-top: 3%;
+  padding: 0.55em 1em;
+  color: #fff;
+  font: 700 clamp(0.68rem, 1vw, 0.78rem) Arial, sans-serif;
+  letter-spacing: 0.01em;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+.text-button::after {
+  content: "→";
+  color: #ff8585;
+  font-size: 1.1em;
+  transition: transform 160ms ease, color 160ms ease;
+}
+.text-button:hover {
+  color: #fff;
+  background: rgba(250, 7, 7, 0.2);
+  border-color: #ff5555;
+  box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.12);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.text-button:hover::after { color: #fff; transform: translateX(3px); }
+.text-button:active { background: rgba(250, 7, 7, 0.32); transform: translateY(1px) scale(0.99); }
+.text-button:focus-visible { outline: 2px solid #ff8585; outline-offset: 3px; }
+@media (max-width: 720px) {
+  .text-button { width: 80%; min-height: 42px; margin-top: 4vw; font-size: 0.82rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-button, .text-button::after { transition: none; }
+}
