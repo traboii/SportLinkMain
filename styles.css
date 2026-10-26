@@ -319,6 +319,7 @@ h1 {
 .success-card h1 { margin-top: 4%; }
 .signed-in-email { max-width: 100%; overflow-wrap: anywhere; font: 0.9rem Arial, sans-serif; }
 .logout-button { margin: 4% auto 0; }
+.signed-in-role { display: inline-flex; align-items: center; margin: 12px 0 0; padding: 7px 13px; color: #fff; background: #c90808; border: 1px solid #ff6464; border-radius: 999px; font: 700 0.72rem Arial, sans-serif; letter-spacing: 0.08em; box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.12); }
 [hidden] { display: none !important; }
 .login-form button:disabled { opacity: .7; cursor: wait; }
 
@@ -375,4 +376,49 @@ h1 {
 }
 @media (prefers-reduced-motion: reduce) {
   .text-button, .text-button::after { transition: none; }
+}
+
+.admin-shell { display: grid; place-items: center; padding: 4vh 4vw; }
+.admin-login { position: relative; top: auto; left: auto; width: min(420px, 92vw); min-height: 0; padding: 28px 30px 32px; align-items: center; }
+.admin-login .brand-mark { width: 82px; }
+.admin-login h1 { margin-top: 12px; font-size: clamp(1.6rem, 4vw, 2rem); }
+.admin-caption { margin: 8px 0 0; color: #e8caca; font: 0.82rem Arial, sans-serif; }
+.admin-login .login-form { width: 100%; margin-top: 24px; }
+.admin-login .login-form input { min-height: 42px; margin-bottom: 12px; font-size: 0.9rem; }
+.admin-login .primary-button { min-height: 40px; margin-top: 12px; }
+.admin-dashboard { width: min(960px, 96vw); min-height: min(720px, 90vh); overflow: hidden; color: #fff; background: #260000; border: 4px solid #f90606; border-radius: 8px; box-shadow: 10px 10px 0 rgba(255, 43, 43, 0.23); }
+.admin-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid #603232; }
+.admin-brand { display: flex; align-items: center; gap: 10px; }
+.admin-brand img { width: 42px; height: 42px; object-fit: contain; }
+.admin-brand div { display: grid; gap: 3px; font-family: Arial, sans-serif; }
+.admin-brand strong { font-size: 1rem; }
+.admin-brand span { color: #dbbaba; font-size: 0.72rem; }
+.admin-brand .admin-role-badge { margin-left: 8px; padding: 6px 10px; color: #fff; background: #c90808; border: 1px solid #ff6464; border-radius: 999px; font: 700 0.62rem Arial, sans-serif; letter-spacing: 0.07em; }
+.admin-logout, .admin-list-heading button { min-height: 34px; padding: 0 15px; color: #fff; background: transparent; border: 1px solid #d88b8b; border-radius: 999px; font: 700 0.75rem Arial, sans-serif; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease; }
+.admin-logout:hover, .admin-list-heading button:hover { background: #c90808; border-color: #ff4a4a; }
+.admin-content { max-width: 740px; margin: 0 auto; padding: 34px 24px; }
+.admin-eyebrow { margin: 0 0 8px; color: #ff8585; font: 700 0.68rem Arial, sans-serif; letter-spacing: 0.14em; }
+.admin-content h1 { margin: 0; font-size: clamp(1.6rem, 4vw, 2.1rem); }
+.admin-subtitle { margin: 9px 0 24px; color: #e8caca; font: 0.86rem Arial, sans-serif; overflow-wrap: anywhere; }
+.admin-stat { display: grid; gap: 12px; width: min(220px, 100%); padding: 18px; background: #3b0909; border: 1px solid #713333; border-radius: 8px; }
+.admin-stat span { color: #e5bdbd; font: 700 0.67rem Arial, sans-serif; letter-spacing: 0.08em; }
+.admin-stat strong { font: 700 2rem Arial, sans-serif; }
+.admin-users-section { margin-top: 30px; }
+.admin-list-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.admin-list-heading h2 { margin: 0; font: 700 1rem Arial, sans-serif; }
+.admin-user-list { display: grid; gap: 8px; }
+.admin-user-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: rgba(255,255,255,.045); border: 1px solid #603232; border-radius: 7px; font-family: Arial, sans-serif; }
+.admin-user-row div { display: grid; gap: 5px; min-width: 0; }
+.admin-user-row strong { font-size: 0.83rem; overflow-wrap: anywhere; }
+.admin-user-row div span { color: #dbbaba; font-size: 0.75rem; overflow-wrap: anywhere; }
+.admin-provider { flex: 0 0 auto; padding: 5px 9px; color: #ffd6d6; background: #4b1111; border-radius: 999px; font-size: 0.68rem; }
+.empty-users { margin: 0; padding: 18px; color: #dbbaba; background: rgba(255,255,255,.035); border: 1px dashed #805050; border-radius: 7px; font: 0.82rem Arial, sans-serif; }
+@media (max-width: 720px) {
+  .admin-shell { padding: 6vw 4vw; }
+  .admin-login { width: 100%; padding: 26px 7vw 28px; }
+  .admin-dashboard { min-height: 84svh; }
+  .admin-header { padding: 12px 14px; }
+  .admin-brand { gap: 7px; }
+  .admin-brand .admin-role-badge { margin-left: 0; padding: 5px 7px; font-size: 0.55rem; }
+  .admin-content { padding: 26px 16px; }
 }

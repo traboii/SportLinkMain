@@ -2,8 +2,10 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const readline = require("readline/promises");
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = Number(process.env.PORT) || 3000;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "335963324849-hk9le3koh3d76i6e3oog15gcu1a72l96.apps.googleusercontent.com";
 const ROOT = __dirname;
 const USERS_FILE = path.join(ROOT, ".data", "users.json");
 const sessions = new Map();
@@ -17,9 +19,42 @@ function setSession(res, user) { const id = crypto.randomBytes(32).toString("hex
 function publicUser(u) { return { id: u.id, email: u.email, name: u.name, provider: u.provider }; }
 function passwordHash(password, salt = crypto.randomBytes(16).toString("hex")) { return { salt, hash: crypto.scryptSync(password, salt, 64).toString("hex") }; }
 function validPassword(password, user) { const a = Buffer.from(passwordHash(password, user.salt).hash, "hex"); const b = Buffer.from(user.passwordHash, "hex"); return a.length === b.length && crypto.timingSafeEqual(a, b); }
+async function createAdminFromTerminal() {
+  const terminal = readline.createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const email = (await terminal.question("Admin email: ")).trim().toLowerCase();
+    const password = await terminal.question("Admin password (minimum 8 characters): ");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 8 || password.length > 256) throw new Error("Enter a valid email and a password between 8 and 256 characters.");
+    const users = await readUsers();
+    const existing = users.find(user => user.email === email);
+    if (existing) {
+      if (existing.role === "admin") throw new Error("That admin account already exists.");
+      throw new Error("That email already belongs to a client account. Choose a different email.");
+    }
+    const credentials = passwordHash(password);
+    users.push({ id: crypto.randomUUID(), email, name: "SportLink Admin", provider: "password", role: "admin", salt: credentials.salt, passwordHash: credentials.hash });
+    await saveUsers(users);
+    console.log(`Admin account created for ${email}. Visit http://${HOST}:${PORT}/admin`);
+  } finally { terminal.close(); }
+}
 async function handleApi(req, res, url) {
-  if (req.method === "GET" && url.pathname === "/api/config") return json(res, 200, { googleClientId: process.env.GOOGLE_CLIENT_ID || "" });
-  if (req.method === "GET" && url.pathname === "/api/session") { const id = cookie(req), session = sessions.get(id); if (!session || session.expires < Date.now()) { sessions.delete(id); return json(res, 200, { user: null }); } const user = (await readUsers()).find(u => u.id === session.userId); return json(res, 200, { user: user ? publicUser(user) : null }); }
+  if (req.method === "GET" && url.pathname === "/api/config") return json(res, 200, { googleClientId: GOOGLE_CLIENT_ID });
+  if (req.method === "GET" && url.pathname === "/api/session") { const id = cookie(req), session = sessions.get(id); if (!session || session.expires < Date.now()) { sessions.delete(id); return json(res, 200, { user: null }); } const user = (await readUsers()).find(u => u.id === session.userId); return json(res, 200, { user: user ? { ...publicUser(user), role: user.role || "client" } : null }); }
+  if (req.method === "POST" && url.pathname === "/api/admin/login") {
+    let data; try { data = await body(req); } catch (e) { return json(res, 400, { error: e.message }); }
+    const email = String(data.email || "").trim().toLowerCase();
+    const user = (await readUsers()).find(entry => entry.email === email && entry.role === "admin" && entry.passwordHash);
+    if (!user || !validPassword(String(data.password || ""), user)) return json(res, 401, { error: "Admin email or password is incorrect." });
+    setSession(res, user); return json(res, 200, { user: { ...publicUser(user), role: "admin" } });
+  }
+  if (req.method === "GET" && url.pathname === "/api/admin/users") {
+    const session = sessions.get(cookie(req));
+    if (!session || session.expires < Date.now()) return json(res, 401, { error: "Please log in again." });
+    const users = await readUsers(), admin = users.find(user => user.id === session.userId && user.role === "admin");
+    if (!admin) return json(res, 403, { error: "Admin access required." });
+    const clients = users.filter(user => user.role !== "admin").map(user => ({ ...publicUser(user), role: "client" }));
+    return json(res, 200, { users: clients, total: clients.length });
+  }
   if (req.method === "POST" && url.pathname === "/api/logout") { sessions.delete(cookie(req)); return json(res, 200, { ok: true }, { "Set-Cookie": "sportlink_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0" }); }
   if (req.method !== "POST" || !["/api/register", "/api/login", "/api/google"].includes(url.pathname)) return json(res, 404, { error: "Not found" });
   let data; try { data = await body(req); } catch (e) { return json(res, 400, { error: e.message }); }
@@ -29,15 +64,15 @@ async function handleApi(req, res, url) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(res, 400, { error: "Enter a valid email address." });
     if (password.length < 8 || password.length > 256) return json(res, 400, { error: "Password must be at least 8 characters." });
     if (users.some(u => u.email === email)) return json(res, 409, { error: "An account with that email already exists. Try logging in." });
-    const credentials = passwordHash(password), user = { id: crypto.randomUUID(), email, name: email.split("@")[0], provider: "password", salt: credentials.salt, passwordHash: credentials.hash };
-    users.push(user); await saveUsers(users); setSession(res, user); return json(res, 201, { user: publicUser(user) });
+    const credentials = passwordHash(password), user = { id: crypto.randomUUID(), email, name: email.split("@")[0], provider: "password", role: "client", salt: credentials.salt, passwordHash: credentials.hash };
+    users.push(user); await saveUsers(users); setSession(res, user); return json(res, 201, { user: { ...publicUser(user), role: "client" } });
   }
   if (url.pathname === "/api/login") {
     const email = String(data.email || "").trim().toLowerCase(), user = users.find(u => u.email === email && u.passwordHash);
     if (!user || !validPassword(String(data.password || ""), user)) return json(res, 401, { error: "Email or password is incorrect." });
-    setSession(res, user); return json(res, 200, { user: publicUser(user) });
+    setSession(res, user); return json(res, 200, { user: { ...publicUser(user), role: user.role || "client" } });
   }
-  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientId = GOOGLE_CLIENT_ID;
   if (!clientId) return json(res, 503, { error: "Google sign-in is not configured yet." });
   if (!data.credential) return json(res, 400, { error: "Google did not return a sign-in credential." });
   try {
@@ -48,16 +83,21 @@ async function handleApi(req, res, url) {
     let user = users.find(u => u.googleId === claims.sub || u.email === claims.email.toLowerCase());
     if (!user) { user = { id: crypto.randomUUID(), email: claims.email.toLowerCase(), name: claims.name || claims.email.split("@")[0], provider: "google", googleId: claims.sub }; users.push(user); }
     else if (!user.googleId) { user.googleId = claims.sub; user.name = claims.name || user.name; }
-    await saveUsers(users); setSession(res, user); return json(res, 200, { user: publicUser(user) });
+    await saveUsers(users); setSession(res, user); return json(res, 200, { user: { ...publicUser(user), role: user.role || "client" } });
   } catch (e) { console.error("Google sign-in verification failed:", e.message); return json(res, 502, { error: "Could not reach Google to verify sign-in. Try again." }); }
 }
+if (process.argv.includes("--create-admin")) {
+  createAdminFromTerminal().catch(error => { console.error(error.message); process.exitCode = 1; });
+} else {
 const server = http.createServer(async (req, res) => {
   let url; try { url = new URL(req.url || "/", `http://${req.headers.host || `${HOST}:${PORT}`}`); } catch { res.writeHead(400); return res.end("Bad request"); }
   if (url.pathname.startsWith("/api/")) { try { return await handleApi(req, res, url); } catch (e) { console.error(e); return json(res, 500, { error: "Server error. Please try again." }); } }
   let pathname; try { pathname = decodeURIComponent(url.pathname); } catch { res.writeHead(400); return res.end("Bad request"); }
   if (pathname.split("/").some(part => part.startsWith("."))) { res.writeHead(404); return res.end("Not found"); }
+  if (pathname === "/admin") pathname = "/admin.html";
   const file = path.resolve(ROOT, `.${pathname === "/" ? "/index.html" : pathname}`);
   if (file !== ROOT && !file.startsWith(`${ROOT}${path.sep}`)) { res.writeHead(403); return res.end("Forbidden"); }
   fs.stat(file, (err, stats) => { if (err || !stats.isFile()) { res.writeHead(404); return res.end("Not found"); } res.writeHead(200, { "Content-Type": MIME_TYPES[path.extname(file).toLowerCase()] || "application/octet-stream", "X-Content-Type-Options": "nosniff" }); fs.createReadStream(file).pipe(res); });
 });
 server.listen(PORT, HOST, () => console.log(`SportLink is running at http://${HOST}:${PORT}`));
+}

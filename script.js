@@ -8,7 +8,7 @@ const submitButton = document.querySelector("#submit-button");
 const modeButton = document.querySelector("#mode-button");
 const googleNote = document.querySelector("#google-note");
 let registering = false;
-function showUser(user) { authCard.hidden = true; successCard.hidden = false; document.querySelector("#signed-in-email").textContent = user.email; }
+function showUser(user) { authCard.hidden = true; successCard.hidden = false; document.querySelector("#signed-in-email").textContent = user.email; document.querySelector("#signed-in-role").hidden = user.role !== "admin"; }
 function showMessage(text, isError = true) { message.textContent = text; message.classList.toggle("success-message", !isError); }
 async function request(url, data) { const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "same-origin", body: JSON.stringify(data) }); const result = await response.json(); if (!response.ok) throw Error(result.error || "Something went wrong."); return result; }
 loginForm.addEventListener("submit", async event => { event.preventDefault(); submitButton.disabled = true; showMessage(""); try { const result = await request(registering ? "/api/register" : "/api/login", { email: emailInput.value, password: passwordInput.value }); showUser(result.user); } catch (error) { showMessage(error.message); } finally { submitButton.disabled = false; } });

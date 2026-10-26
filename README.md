@@ -14,3 +14,7 @@ node server.js
 ```
 
 Google token validation is performed by the server. No client secret is used or exposed in the browser.
+
+## Local admin demo
+
+In a terminal, run `node server.js --create-admin` and follow the prompts to save an admin email and password in the server-side user file. Then start the server with `node server.js` and visit `http://127.0.0.1:3000/admin` (use the same host and port shown by the server if you changed them). The admin dashboard lists client accounts and a client count. Admin accounts are role-checked by the server and do not appear in the client list.

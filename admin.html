@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#260000" />
+    <title>SportLink | Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell admin-shell">
+      <section class="login-card admin-login" id="admin-login-card" aria-labelledby="admin-title">
+        <div class="brand-mark"><img src="assets/orange-ccs-sportshub.png" alt="SportLink" /></div>
+        <h1 id="admin-title">Admin login</h1>
+        <p class="admin-caption">SportLink management</p>
+        <form class="login-form" id="admin-login-form">
+          <label class="sr-only" for="admin-email">Admin email</label>
+          <input id="admin-email" type="email" autocomplete="username" placeholder="Admin email" required />
+          <label class="sr-only" for="admin-password">Password</label>
+          <input id="admin-password" type="password" autocomplete="current-password" placeholder="Password" required />
+          <button class="primary-button" id="admin-submit" type="submit">Log in</button>
+          <p class="form-message" id="admin-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="admin-dashboard" id="admin-dashboard" hidden aria-labelledby="dashboard-title">
+        <header class="admin-header">
+          <div class="admin-brand"><img src="assets/orange-ccs-sportshub.png" alt="" /><div><strong>SportLink</strong><span>Admin dashboard</span></div><span class="admin-role-badge">ADMIN ACCOUNT</span></div>
+          <button class="admin-logout" id="admin-logout" type="button">Log out</button>
+        </header>
+        <div class="admin-content">
+          <p class="admin-eyebrow">ADMINISTRATION</p>
+          <h1 id="dashboard-title">Welcome, admin</h1>
+          <p class="admin-subtitle" id="admin-welcome"></p>
+          <article class="admin-stat"><span>CLIENT ACCOUNTS</span><strong id="client-count">—</strong></article>
+          <section class="admin-users-section">
+            <div class="admin-list-heading"><h2>Registered users</h2><button id="refresh-users" type="button">Refresh</button></div>
+            <div class="admin-user-list" id="admin-user-list"><p class="empty-users">Loading accounts…</p></div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="admin.js"></script>
+  </body>
+</html>
