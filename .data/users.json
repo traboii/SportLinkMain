@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fba5ab55-df6c-4948-ac8a-11bd67ec7913",
+    "email": "markaronilagan22@gmail.com",
+    "name": "Mark aron Ilagan",
+    "provider": "password",
+    "salt": "6fae9981f838d6f7382c266bb439a08c",
+    "passwordHash": "c6c45dc4445da95ae46ba38042ea4100557379fb7daaa750a51403524bdf97e697a45a7ab8ecc21231c0ab2ec269b190a1263f3fb2c231755fdc651e89e8442e",
+    "googleId": "103981680194905386105"
+  },
+  {
+    "id": "977ec2fa-0b79-463a-94fe-fad6b9f86256",
+    "email": "jamesbuncag1@gmail.com",
+    "name": "jamesbuncag1",
+    "provider": "password",
+    "salt": "d88d4d41559bd6ca38946a92b7d16165",
+    "passwordHash": "9feb62192107d4854e0625b90feaf9ee1880b182ad955915009e0fd41fe9aa479d0336317ade569bcfc7a0daf616a41baffb0944377d032c66eb77930f5d1470"
+  },
+  {
+    "id": "ff62b813-fbf6-416c-aafe-fa63d5ae12d0",
+    "email": "jmdmmissa@gmail.com",
+    "name": "SportLink Admin",
+    "provider": "password",
+    "role": "admin",
+    "salt": "09170f182d69802d4c1f61d12ed3a35d",
+    "passwordHash": "07461b3d61e4b4ba4d32cac27e69d3f95a90e771eb7108f93e84c0ad2e7c38cf4cd160091cd3159ded4ee6ecd4231fe4e5dcb7b5e4bc24b26622fe745159f459"
+  }
+]
