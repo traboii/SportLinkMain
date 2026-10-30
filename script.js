@@ -89,15 +89,17 @@ document.addEventListener("click", event => {
 });
 
 const storyGrid = document.querySelector("#story-grid");
-storyGrid.innerHTML = stories.map((story, index) => `
-  <article class="story-card">
-    <button class="card-image ${story.image}" type="button" data-story="${story.title}" data-copy="${story.text}" aria-label="Read ${story.title}"><span>${story.tag}</span></button>
+storyGrid.innerHTML = stories.map(story => `
+  <article class="story-card" data-story="${story.title}" data-copy="${story.text}" tabindex="0" role="link" aria-label="Read ${story.title}">
+    <div class="card-image ${story.image}" aria-hidden="true"><span>${story.tag}</span></div>
     <div class="card-copy">
       <h3>${story.title}</h3>
       <p>${story.text}</p>
-      <button class="read-more" type="button" data-story="${story.title}" data-copy="${story.text}">Read More <span aria-hidden="true">→</span></button>
+      <span class="read-more">Read More <span aria-hidden="true">→</span></span>
     </div>
   </article>`).join("");
+const relatedNews = document.querySelector("#related-news");
+relatedNews.innerHTML = stories.slice(0, 5).map(story => `<article class="story-card" data-story="${story.title}" data-copy="${story.text}" tabindex="0" role="link"><div class="card-image ${story.image}" aria-hidden="true"><span>${story.tag}</span></div><div class="card-copy"><h3>${story.title}</h3></div></article>`).join("");
 
 const feedback = document.querySelector("#nav-feedback");
 let feedbackTimer;
@@ -118,6 +120,8 @@ document.querySelectorAll(".nav-link").forEach(button => button.addEventListener
   });
   const section = button.dataset.nav;
   if (section === "News") {
+    document.querySelector("#article-view").hidden = true;
+    document.querySelector(".news-section").hidden = false;
     document.querySelector(".breadcrumb").scrollIntoView({ behavior: "smooth", block: "start" });
     showFeedback("You’re viewing the latest CCS news.");
   } else {
@@ -126,16 +130,25 @@ document.querySelectorAll(".nav-link").forEach(button => button.addEventListener
 }));
 
 const storyDialog = document.querySelector("#story-dialog");
-document.addEventListener("click", event => {
-  const trigger = event.target.closest("[data-story]");
-  if (!trigger) return;
-  document.querySelector("#dialog-title").textContent = trigger.dataset.story;
-  document.querySelector("#dialog-copy").textContent = trigger.dataset.copy || "Step onto the mat with our Ka-Phoenix as they bring power, focus, and determination to every bout. Catch the highlights and celebrate the CCS spirit.";
-  storyDialog.showModal();
+function openStory(card) {
+  document.querySelector("#article-title").textContent = card.dataset.story;
+  document.querySelector("#article-crumb-title").textContent = ` / ${card.dataset.story}`;
+  document.querySelector("#article-subtitle").textContent = card.dataset.story;
+  document.querySelector("#article-paragraph").textContent = card.dataset.copy;
+  document.querySelector("#article-paragraph-two").textContent = card.dataset.copy;
+  document.querySelector(".news-section").hidden = true;
+  document.querySelector("#article-view").hidden = false;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+storyGrid.addEventListener("click", event => { const card = event.target.closest(".story-card"); if (card) openStory(card); });
+storyGrid.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") { const card = event.target.closest(".story-card"); if (card) { event.preventDefault(); openStory(card); } } });
+relatedNews.addEventListener("click", event => { const card = event.target.closest(".story-card"); if (card) openStory(card); });
+relatedNews.addEventListener("keydown", event => { if (event.key === "Enter" || event.key === " ") { const card = event.target.closest(".story-card"); if (card) { event.preventDefault(); openStory(card); } } });
+document.querySelector("#back-to-news").addEventListener("click", () => {
+  document.querySelector("#article-view").hidden = true;
+  document.querySelector(".news-section").hidden = false;
+  document.querySelector('[data-nav="News"]').click();
 });
-document.querySelector(".dialog-close").addEventListener("click", () => storyDialog.close());
-document.querySelector(".dialog-done").addEventListener("click", () => storyDialog.close());
-storyDialog.addEventListener("click", event => { if (event.target === storyDialog) storyDialog.close(); });
 
 fetch("/api/config").then(response => response.json()).then(({ googleClientId }) => {
   if (!googleClientId) return;
