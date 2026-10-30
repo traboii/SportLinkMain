@@ -76,14 +76,20 @@
         <article class="article-view" id="article-view" hidden aria-live="polite">
           <p class="article-breadcrumb"><button type="button" id="back-to-news">HOME / NEWS</button><span id="article-crumb-title"></span></p>
           <h1 id="article-title"></h1>
-          <p class="article-meta"><time datetime="2026-10-30">October 30, 2026</time><span>|</span> CCS Sports Hub Editorial Team</p>
+          <p class="article-meta"><time datetime="2026-10-30">October 30, 2026</time><span>|</span><span class="article-author">CCS Sports Hub Editorial Team</span></p>
           <img class="article-hero-image" src="assets/ccs-banner-crowd.png" alt="CCS athletes and supporters at a campus sports event" />
           <div class="article-body">
             <h2 id="article-subtitle"></h2>
             <p id="article-paragraph"></p>
             <p id="article-paragraph-two"></p>
             <h2>Attached Photos</h2>
-            <div class="article-photos"><img src="assets/ccs-banner-crowd.png" alt="CCS sports event" /><img src="assets/sportlink-background.jpg" alt="CCS athletes" /><img src="assets/ccs-campus-background.png" alt="CCS campus field" /><img src="assets/ccs-banner-crowd.png" alt="CCS team" /><img src="assets/sportlink-background.jpg" alt="CCS sports highlights" /></div>
+            <div class="article-photos" id="article-photos" aria-label="Article photos">
+              <button class="article-photo is-selected" type="button" data-image="assets/ccs-banner-crowd.png" aria-label="Show sports event photo"><img src="assets/ccs-banner-crowd.png" alt="CCS sports event" /></button>
+              <button class="article-photo" type="button" data-image="assets/sportlink-background.jpg" aria-label="Show athletes photo"><img src="assets/sportlink-background.jpg" alt="CCS athletes" /></button>
+              <button class="article-photo" type="button" data-image="assets/ccs-campus-background.png" aria-label="Show campus field photo"><img src="assets/ccs-campus-background.png" alt="CCS campus field" /></button>
+              <button class="article-photo" type="button" data-image="assets/ccs-banner-crowd.png" aria-label="Show team photo"><img src="assets/ccs-banner-crowd.png" alt="CCS team" /></button>
+              <button class="article-photo" type="button" data-image="assets/sportlink-background.jpg" aria-label="Show sports highlights photo"><img src="assets/sportlink-background.jpg" alt="CCS sports highlights" /></button>
+            </div>
             <hr />
             <h2>Related News</h2>
             <div class="related-news" id="related-news"></div>

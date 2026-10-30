@@ -8,15 +8,15 @@ const modeButton = document.querySelector("#mode-button");
 const landingPage = document.querySelector("#landing-page");
 let registering = false;
 
-const stories = [
-  { image: "orange", title: "CCS: Hip-hop dancers team take 2nd runner up", tag: "DANCE", text: "The beat dropped. The energy exploded. And CCS stepped up! Our dancers brought the spirit to the floor." },
-  { image: "phoenix", title: "Ka-Phoenix represent at the campus games", tag: "CAMPUS LIFE", text: "A proud day for our CCS community. Meet the students who showed up, cheered loud, and made every moment count." },
-  { image: "crowd", title: "One team, one crowd, one unforgettable day", tag: "COMMUNITY", text: "From the first whistle to the final photo, CCS came together to celebrate sport, friendship, and school spirit." },
-  { image: "field", title: "The best moments from this season", tag: "HIGHLIGHTS", text: "A look back at the plays, the teamwork, and the memories that made this season one to remember." },
-  { image: "crowd", title: "CCS athletes bring the heat at the games", tag: "ATHLETICS", text: "Our Ka-Phoenix brought focus, heart, and determination to every match. Congratulations to all our competitors." },
-  { image: "orange", title: "Celebrating the people behind the plays", tag: "COMMUNITY", text: "Coaches, volunteers, and supporters make every game day special. This win belongs to the whole CCS family." },
-  { image: "field", title: "Game day: the CCS spirit in full force", tag: "GAME DAY", text: "The sidelines were full, the energy was high, and our community showed what it means to stand together." },
-  { image: "phoenix", title: "A season powered by teamwork", tag: "TEAMS", text: "Every practice and every point brought us closer. Here are a few moments worth celebrating again." },
+let stories = [
+  { image: "assets/sportlink-background.jpg", title: "CCS: Hip-hop dancers team take 2nd runner up", tag: "DANCE", text: "The beat dropped. The energy exploded. And CCS stepped up! Our dancers brought the spirit to the floor." },
+  { image: "assets/ccs-banner-crowd.png", title: "Ka-Phoenix represent at the campus games", tag: "CAMPUS LIFE", text: "A proud day for our CCS community. Meet the students who showed up, cheered loud, and made every moment count." },
+  { image: "assets/ccs-banner-crowd.png", title: "One team, one crowd, one unforgettable day", tag: "COMMUNITY", text: "From the first whistle to the final photo, CCS came together to celebrate sport, friendship, and school spirit." },
+  { image: "assets/ccs-campus-background.png", title: "The best moments from this season", tag: "HIGHLIGHTS", text: "A look back at the plays, the teamwork, and the memories that made this season one to remember." },
+  { image: "assets/ccs-banner-crowd.png", title: "CCS athletes bring the heat at the games", tag: "ATHLETICS", text: "Our Ka-Phoenix brought focus, heart, and determination to every match. Congratulations to all our competitors." },
+  { image: "assets/ccs-banner-crowd.png", title: "Celebrating the people behind the plays", tag: "COMMUNITY", text: "Coaches, volunteers, and supporters make every game day special. This win belongs to the whole CCS family." },
+  { image: "assets/ccs-campus-background.png", title: "Game day: the CCS spirit in full force", tag: "GAME DAY", text: "The sidelines were full, the energy was high, and our community showed what it means to stand together." },
+  { image: "assets/ccs-banner-crowd.png", title: "A season powered by teamwork", tag: "TEAMS", text: "Every practice and every point brought us closer. Here are a few moments worth celebrating again." },
 ];
 
 function showUser(user) {
@@ -89,17 +89,23 @@ document.addEventListener("click", event => {
 });
 
 const storyGrid = document.querySelector("#story-grid");
-storyGrid.innerHTML = stories.map(story => `
-  <article class="story-card" data-story="${story.title}" data-copy="${story.text}" tabindex="0" role="link" aria-label="Read ${story.title}">
-    <div class="card-image ${story.image}" aria-hidden="true"><span>${story.tag}</span></div>
-    <div class="card-copy">
-      <h3>${story.title}</h3>
-      <p>${story.text}</p>
-      <span class="read-more">Read More <span aria-hidden="true">→</span></span>
-    </div>
-  </article>`).join("");
 const relatedNews = document.querySelector("#related-news");
-relatedNews.innerHTML = stories.slice(0, 5).map(story => `<article class="story-card" data-story="${story.title}" data-copy="${story.text}" tabindex="0" role="link"><div class="card-image ${story.image}" aria-hidden="true"><span>${story.tag}</span></div><div class="card-copy"><h3>${story.title}</h3></div></article>`).join("");
+const escapeHtml = value => String(value || "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+function storyCardMarkup(story, compact = false) {
+  return `<article class="story-card" data-story="${escapeHtml(story.articleTitle || story.title)}" data-card-title="${escapeHtml(story.title)}" data-copy="${escapeHtml(story.text)}" data-paragraph="${escapeHtml(story.paragraph || story.text)}" data-paragraph2="${escapeHtml(story.paragraph2 || story.text)}" data-image="${escapeHtml(story.heroImage || story.image)}" data-date="${escapeHtml(story.date)}" data-author="${escapeHtml(story.author)}" data-gallery="${escapeHtml(JSON.stringify(story.gallery || []))}" tabindex="0" role="link" aria-label="Read ${escapeHtml(story.title)}">
+    <div class="card-image"><img src="${escapeHtml(story.image)}" alt="" /><span>${escapeHtml(story.tag)}</span></div>
+    <div class="card-copy"><h3>${escapeHtml(story.title)}</h3>${compact ? "" : `<p>${escapeHtml(story.text)}</p><span class="read-more">Read More <span aria-hidden="true">→</span></span>`}</div></article>`;
+}
+function renderStoryCards() {
+  storyGrid.innerHTML = stories.map(story => storyCardMarkup(story)).join("");
+  relatedNews.innerHTML = stories.slice(0, 5).map(story => storyCardMarkup(story, true)).join("");
+}
+renderStoryCards();
+fetch("/api/news").then(response => response.json()).then(data => {
+  if (!data.stories?.length) return;
+  stories = data.stories.map(story => ({ ...story, image: story.image || "assets/ccs-banner-crowd.png", heroImage: story.heroImage || story.image || "assets/ccs-banner-crowd.png" }));
+  renderStoryCards();
+}).catch(() => {});
 
 const feedback = document.querySelector("#nav-feedback");
 let feedbackTimer;
@@ -134,8 +140,18 @@ function openStory(card) {
   document.querySelector("#article-title").textContent = card.dataset.story;
   document.querySelector("#article-crumb-title").textContent = ` / ${card.dataset.story}`;
   document.querySelector("#article-subtitle").textContent = card.dataset.story;
-  document.querySelector("#article-paragraph").textContent = card.dataset.copy;
-  document.querySelector("#article-paragraph-two").textContent = card.dataset.copy;
+  document.querySelector("#article-paragraph").textContent = card.dataset.paragraph || card.dataset.copy;
+  document.querySelector("#article-paragraph-two").textContent = card.dataset.paragraph2 || card.dataset.copy;
+  const hero = document.querySelector(".article-hero-image"); hero.src = card.dataset.image; hero.alt = card.dataset.story;
+  document.querySelector(".article-meta time").textContent = card.dataset.date || "October 30, 2026";
+  document.querySelector(".article-meta .article-author").textContent = card.dataset.author || "CCS Sports Hub Editorial Team";
+  let gallery = []; try { gallery = JSON.parse(card.dataset.gallery || "[]"); } catch {}
+  if (!gallery.length) gallery = [card.dataset.image, "assets/sportlink-background.jpg", "assets/ccs-campus-background.png", "assets/ccs-banner-crowd.png", "assets/sportlink-background.jpg"];
+  const photoWrap = document.querySelector("#article-photos");
+  photoWrap.replaceChildren(...gallery.slice(0, 8).map((src, index) => {
+    const button = document.createElement("button"); button.className = `article-photo${index === 0 ? " is-selected" : ""}`; button.type = "button"; button.dataset.image = src; button.setAttribute("aria-pressed", String(index === 0)); button.setAttribute("aria-label", `Show attached photo ${index + 1}`);
+    const img = document.createElement("img"); img.src = src; img.alt = `Article photo ${index + 1}`; button.append(img); return button;
+  }));
   document.querySelector(".news-section").hidden = true;
   document.querySelector("#article-view").hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -148,6 +164,19 @@ document.querySelector("#back-to-news").addEventListener("click", () => {
   document.querySelector("#article-view").hidden = true;
   document.querySelector(".news-section").hidden = false;
   document.querySelector('[data-nav="News"]').click();
+});
+document.querySelector("#article-photos").addEventListener("click", event => {
+  const thumbnail = event.target.closest(".article-photo");
+  if (!thumbnail) return;
+  const hero = document.querySelector(".article-hero-image");
+  const image = thumbnail.querySelector("img");
+  hero.src = thumbnail.dataset.image;
+  hero.alt = image.alt;
+  document.querySelectorAll(".article-photo").forEach(photo => {
+    const selected = photo === thumbnail;
+    photo.classList.toggle("is-selected", selected);
+    photo.setAttribute("aria-pressed", String(selected));
+  });
 });
 
 fetch("/api/config").then(response => response.json()).then(({ googleClientId }) => {

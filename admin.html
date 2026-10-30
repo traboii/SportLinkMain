@@ -7,7 +7,7 @@
     <title>SportLink | Admin</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body class="admin-page">
     <main class="page-shell admin-shell">
       <section class="login-card admin-login" id="admin-login-card" aria-labelledby="admin-title">
         <div class="brand-mark"><img src="assets/orange-ccs-sportshub.png" alt="SportLink" /></div>
@@ -36,6 +36,27 @@
           <section class="admin-users-section">
             <div class="admin-list-heading"><h2>Registered users</h2><button id="refresh-users" type="button">Refresh</button></div>
             <div class="admin-user-list" id="admin-user-list"><p class="empty-users">Loading accounts…</p></div>
+          </section>
+          <section class="admin-news-editor" aria-labelledby="news-editor-title">
+            <div class="admin-list-heading"><div><h2 id="news-editor-title">News and article content</h2><p>Edit the cards and article pages clients see.</p></div><button id="add-news-story" type="button">Add story</button></div>
+            <label class="editor-label" for="news-story-select">Story</label>
+            <select id="news-story-select"></select>
+            <form id="news-story-form">
+              <div class="news-editor-grid">
+                <label>Card title<input name="title" required maxlength="180" /></label>
+                <label>Card category<input name="tag" maxlength="60" /></label>
+                <label class="editor-wide">Card summary<textarea name="text" rows="3"></textarea></label>
+                <label class="editor-wide">Card image<input name="image" /><small>Upload an image or enter an assets/ path.</small><input name="imageFile" type="file" accept="image/png,image/jpeg,image/webp" /></label>
+                <label class="editor-wide">Article title<input name="articleTitle" required maxlength="180" /></label>
+                <label>Publish date<input name="date" placeholder="October 30, 2026" /></label>
+                <label>Author<input name="author" /></label>
+                <label class="editor-wide">Article paragraph 1<textarea name="paragraph" rows="4"></textarea></label>
+                <label class="editor-wide">Article paragraph 2<textarea name="paragraph2" rows="4"></textarea></label>
+                <label class="editor-wide">Article hero image<input name="heroImage" /><small>Upload an image or enter an assets/ path.</small><input name="heroFile" type="file" accept="image/png,image/jpeg,image/webp" /></label>
+                <div class="editor-wide"><span class="editor-label">Attached photos (up to 5)</span><div class="gallery-editor" id="gallery-editor"></div></div>
+              </div>
+              <div class="editor-actions"><button class="admin-save-news" type="submit">Save story</button><button id="delete-news-story" type="button">Delete story</button><p id="news-save-message" role="status" aria-live="polite"></p></div>
+            </form>
           </section>
         </div>
       </section>
