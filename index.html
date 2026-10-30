@@ -28,13 +28,60 @@
         <div id="google-signin" class="google-signin"></div>
         <p class="google-note" id="google-note">Google sign-in needs an OAuth web client ID.</p>
       </section>
-      <section class="login-card success-card" id="success-card" hidden aria-live="polite">
-        <div class="brand-mark"><img src="assets/orange-ccs-sportshub.png" alt="SportLink" /></div>
-        <h1>You're signed in</h1>
-        <span class="signed-in-role" id="signed-in-role" hidden>ADMIN ACCOUNT</span>
-        <p class="signed-in-email" id="signed-in-email"></p>
-        <button class="primary-button logout-button" id="logout-button" type="button">Log out</button>
-      </section>
+    </main>
+    <main class="news-page" id="landing-page" hidden>
+      <header class="site-header">
+        <a class="site-brand" href="#news" aria-label="CCS Sports Hub home">
+          <img src="assets/orange-ccs-sportshub.png" alt="" />
+          <span>CCS SPORTS<br />HUB</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="nav-link is-active" type="button" data-nav="News" aria-pressed="true">News</button>
+          <button class="nav-link" type="button" data-nav="Map" aria-pressed="false">Map</button>
+          <button class="nav-link" type="button" data-nav="Events" aria-pressed="false">Events</button>
+          <button class="nav-link" type="button" data-nav="Teams" aria-pressed="false">Teams</button>
+          <button class="nav-link" type="button" data-nav="Notification" aria-pressed="false">Notification</button>
+        </nav>
+        <div class="account-area">
+          <button class="account-button" id="account-button" type="button" aria-label="Account menu" aria-expanded="false">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="17" r="8" fill="white"/><path d="M9 39c2-8 7-13 15-13s13 5 15 13" fill="white"/></svg>
+          </button>
+          <div class="account-menu" id="account-menu" hidden>
+            <span id="account-email"></span>
+            <button type="button" id="logout-button">Log out</button>
+          </div>
+        </div>
+      </header>
+      <div class="landing-content" id="news">
+        <section class="hub-banner" aria-label="CCS Sports Hub">
+          <div class="banner-wordmark"><span>CCS</span><strong>SPORTS<br />HUB</strong></div>
+          <div class="banner-emblem"><img src="assets/orange-ccs-sportshub.png" alt="Phoenix emblem" /></div>
+          <p class="banner-tagline">ONE COMMUNITY.<br />EVERY GAME.</p>
+        </section>
+        <section class="news-section" aria-labelledby="news-title">
+          <p class="breadcrumb">HOME <span>/</span> NEWS</p>
+          <h1 id="news-title">NEWS</h1>
+          <p class="news-intro">Check out the latest stories and highlights from CCS.</p>
+          <article class="featured-story">
+            <button class="feature-image story-open" type="button" data-story="Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat" aria-label="Read the featured taekwondo story"><span>CCS ATHLETICS</span></button>
+            <div class="feature-copy">
+              <p class="story-kicker">FEATURED STORY <span>•</span> CCS STUDENT COUNCIL</p>
+              <h2>Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat—showing power, focus, and determination in every bout</h2>
+              <button class="round-arrow story-open" type="button" data-story="Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat" aria-label="Read the featured story"><span aria-hidden="true">→</span></button>
+              <div class="story-byline"><img src="assets/orange-ccs-sportshub.png" alt="" /><span>CCS Student Council</span></div>
+            </div>
+          </article>
+          <div class="story-grid" id="story-grid"></div>
+        </section>
+      </div>
+      <div class="nav-feedback" id="nav-feedback" role="status" aria-live="polite"></div>
+      <dialog class="story-dialog" id="story-dialog">
+        <button class="dialog-close" type="button" aria-label="Close story">×</button>
+        <p class="story-kicker">CCS SPORTS HUB <span>•</span> NEWS</p>
+        <h2 id="dialog-title"></h2>
+        <p id="dialog-copy">The beat dropped. The energy exploded. And CCS stepped up! With every play, every move, and every drop, our Ka-Phoenix brought the spirit to the floor. Congratulations, CCS!</p>
+        <button class="dialog-done" type="button">Back to News</button>
+      </dialog>
     </main>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="script.js"></script>

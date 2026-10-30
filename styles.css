@@ -422,3 +422,109 @@ h1 {
   .admin-brand .admin-role-badge { margin-left: 0; padding: 5px 7px; font-size: 0.55rem; }
   .admin-content { padding: 26px 16px; }
 }
+
+/* Signed-in CCS Sports Hub news landing page */
+body.landing-mode { overflow: auto; background: #151a1d; font-family: Arial, Helvetica, sans-serif; }
+body.landing-mode .page-shell { display: none; }
+.news-page { min-height: 100svh; color: #fff; background-color: #171a19; background-image: linear-gradient(180deg, rgba(6, 12, 16, .78), rgba(10, 13, 11, .8) 45%, rgba(10, 12, 10, .93)), url("assets/sportlink-background.jpg"); background-position: center, center top; background-size: cover, cover; background-attachment: fixed, fixed; }
+.site-header { position: sticky; z-index: 5; top: 0; display: grid; grid-template-columns: minmax(230px,1fr) auto minmax(130px,1fr); align-items: center; min-height: 86px; padding: 10px clamp(22px, 4.5vw, 64px); color: #171313; background: rgba(255,255,255,.98); box-shadow: 0 4px 18px rgba(0,0,0,.12); }
+.site-brand { display: flex; width: max-content; align-items: center; gap: 10px; color: #181515; font: 700 clamp(1.15rem, 2.1vw, 1.75rem)/.9 Georgia, "Times New Roman", serif; text-decoration: none; letter-spacing: -.04em; }
+.site-brand img { width: 48px; height: 58px; object-fit: contain; }
+.main-nav { display: flex; align-items: center; justify-content: center; gap: clamp(20px, 3vw, 46px); }
+.nav-link { position: relative; padding: 8px 12px; color: #191515; font: 1rem Georgia, "Times New Roman", serif; background: none; border: 0; border-radius: 2px; cursor: pointer; transition: color .2s, background .2s, transform .2s, box-shadow .2s; }
+.nav-link:hover { color: #a52a0e; transform: translateY(-2px); }
+.nav-link.is-active { color: #31120a; background: linear-gradient(135deg, #fa5a21, #f09b4a); box-shadow: 0 3px 12px rgba(208, 74, 29, .2); }
+.nav-link:focus-visible, .account-button:focus-visible, .read-more:focus-visible, .round-arrow:focus-visible { outline: 3px solid #ffb179; outline-offset: 3px; }
+.account-area { position: relative; justify-self: end; }
+.account-button { display: grid; width: 42px; height: 42px; padding: 0; place-items: center; color: #090909; background: none; border: 0; cursor: pointer; transition: transform .18s; }
+.account-button:hover { transform: scale(1.08); }
+.account-button svg { width: 100%; height: 100%; }
+.account-menu { position: absolute; top: calc(100% + 12px); right: 0; display: grid; min-width: 220px; gap: 12px; padding: 16px; color: #211b18; background: #fff; border: 1px solid #eadfd9; border-radius: 12px; box-shadow: 0 12px 32px #0004; font: .82rem Arial, sans-serif; }
+.account-menu span { overflow-wrap: anywhere; }
+.account-menu button { min-height: 36px; color: #fff; background: #c84620; border: 0; border-radius: 999px; cursor: pointer; }
+.landing-content { width: min(1180px, calc(100% - 9vw)); margin: 0 auto; padding: 30px 0 64px; }
+.hub-banner { position: relative; display: flex; min-height: clamp(195px, 27vw, 335px); align-items: center; justify-content: space-between; overflow: hidden; padding: 24px clamp(25px, 5vw, 70px); background: linear-gradient(105deg, rgba(238, 61, 60, .94), rgba(247, 121, 59, .9)), url("assets/sportlink-background.jpg") center 42% / cover; border-radius: 28px; box-shadow: 0 18px 36px #0005; }
+.hub-banner::after { position: absolute; inset: 0; content: ""; background: radial-gradient(ellipse at 78% 50%, transparent 0 24%, rgba(125,25,18,.2) 72%); pointer-events: none; }
+.banner-wordmark { z-index: 1; display: grid; color: #210c09; font-family: Arial, Helvetica, sans-serif; font-weight: 900; line-height: .81; letter-spacing: -.055em; text-shadow: 0 2px 1px #fff4; }
+.banner-wordmark span { color: white; font-size: clamp(4rem, 11vw, 9rem); }
+.banner-wordmark strong { font-size: clamp(3.1rem, 8vw, 6.7rem); }
+.banner-emblem { position: absolute; top: 50%; right: 12%; z-index: 1; width: clamp(145px, 27vw, 320px); height: 90%; transform: translateY(-50%); }
+.banner-emblem img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 10px #6f130d66); }
+.banner-tagline { z-index: 1; align-self: end; margin: 0 0 5px auto; color: #50140c; font: 700 .7rem/1.5 Arial,sans-serif; letter-spacing: .16em; text-align: right; }
+.news-section { padding-top: 30px; }
+.breadcrumb { margin: 0 0 5px; color: #dedede; font: .78rem Arial,sans-serif; letter-spacing: .045em; scroll-margin-top: 105px; }
+.breadcrumb span { padding: 0 5px; color: #f48255; }
+.news-section > h1 { margin: 0; color: white; font: 900 clamp(3rem, 7vw, 5rem)/1 Arial,sans-serif; letter-spacing: -.045em; }
+.news-intro { margin: 6px 0 28px; color: #d0d0ce; font: 1rem Arial,sans-serif; }
+.featured-story { display: grid; grid-template-columns: 1.03fr 1fr; min-height: clamp(280px, 34vw, 390px); overflow: hidden; background: #fff; border-radius: 24px; box-shadow: 0 18px 40px #0005; }
+.feature-image, .card-image { position: relative; display: flex; width: 100%; min-height: 100%; align-items: end; padding: 18px; overflow: hidden; color: white; text-align: left; background-color: #484239; background-image: linear-gradient(0deg,#10110e88,transparent 56%),url("assets/sportlink-background.jpg"); background-repeat: no-repeat; background-size: auto, 220% auto; border: 0; cursor: pointer; transition: filter .25s, background-size .4s; }
+.feature-image { background-position: center, 14% 61%; }
+.feature-image:hover, .card-image:hover { filter: saturate(1.2) brightness(1.08); background-size: auto, 235% auto; }
+.feature-image span, .card-image span { padding: 7px 10px; color: white; background: #c64621; border-radius: 999px; font: 700 .62rem Arial,sans-serif; letter-spacing: .1em; }
+.feature-copy { position: relative; display: flex; flex-direction: column; justify-content: center; padding: clamp(27px, 5vw, 58px); color: #151515; }
+.story-kicker { margin: 0 0 14px; color: #a14629; font: 700 .65rem Arial,sans-serif; letter-spacing: .09em; }
+.story-kicker span { padding: 0 5px; color: #ed7546; }
+.feature-copy h2 { max-width: 510px; margin: 0; font: 700 clamp(1.35rem, 3vw, 2rem)/1.42 Arial,sans-serif; letter-spacing: -.025em; }
+.round-arrow { position: absolute; top: 50%; right: 20px; display: grid; width: 36px; height: 36px; place-items: center; color: #161616; background: white; border: 1px solid #555; border-radius: 50%; font: 1.3rem Arial,sans-serif; cursor: pointer; transition: color .2s, background .2s, transform .2s; }
+.round-arrow:hover { color: white; background: #c84620; transform: translateX(3px); }
+.story-byline { display: flex; align-items: center; gap: 8px; margin-top: 13px; color: #555; font: .7rem Arial,sans-serif; }
+.story-byline img { width: 23px; height: 23px; object-fit: contain; background: #f3f0eb; border-radius: 50%; }
+.story-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px clamp(16px, 3vw, 36px); max-width: 1020px; margin: 54px auto 0; }
+.story-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; color: #161616; background: white; border-radius: 12px; box-shadow: 0 9px 22px #0004; transition: transform .2s, box-shadow .2s; }
+.story-card:hover { transform: translateY(-4px); box-shadow: 0 16px 30px #0006; }
+.card-image { min-height: auto; aspect-ratio: 1.5; padding: 10px; background-size: auto, 260% auto; }
+.card-image.orange { background-position: center, 15% 65%; }
+.card-image.phoenix { background-position: center, 40% 45%; }
+.card-image.crowd { background-position: center, 11% 51%; }
+.card-image.field { background-position: center, 4% 75%; }
+.card-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 13px 13px 14px; }
+.card-copy h3 { margin: 0 0 10px; font: 800 .88rem/1.25 Arial,sans-serif; text-transform: uppercase; }
+.card-copy p { margin: 0; color: #383838; font: .72rem/1.42 Arial,sans-serif; }
+.read-more { display: flex; align-items: center; gap: 7px; margin: auto auto 0; padding: 7px 13px 6px; color: white; background: linear-gradient(110deg,#ef5428,#e88e4c); border: 0; border-radius: 999px; font: .68rem Georgia,serif; cursor: pointer; transition: box-shadow .2s, transform .2s; }
+.card-copy p + .read-more { margin-top: 13px; }
+.read-more:hover { box-shadow: 0 5px 12px #b3422570; transform: translateY(-2px); }
+.nav-feedback { position: fixed; z-index: 8; right: 24px; bottom: 24px; max-width: min(360px, calc(100vw - 32px)); padding: 14px 18px; color: #fff; background: #211b19; border-left: 4px solid #f37039; border-radius: 8px; box-shadow: 0 12px 30px #0006; font: .88rem/1.4 Arial,sans-serif; opacity: 0; pointer-events: none; transform: translateY(14px); }
+.nav-feedback.is-visible { animation: feedback-in .26s ease-out forwards; }
+@keyframes feedback-in { to { opacity: 1; transform: translateY(0); } }
+.story-dialog { position: fixed; width: min(560px, calc(100% - 32px)); padding: clamp(25px, 5vw, 42px); color: #211d1b; border: 0; border-radius: 18px; box-shadow: 0 24px 80px #0008; }
+.story-dialog::backdrop { background: #080a0bd1; backdrop-filter: blur(4px); }
+.story-dialog h2 { margin: 0 0 15px; font: 800 clamp(1.45rem, 4vw, 2rem)/1.2 Arial,sans-serif; }
+.story-dialog > p:not(.story-kicker) { color: #48423f; font: 1rem/1.65 Arial,sans-serif; }
+.dialog-close { position: absolute; top: 12px; right: 16px; width: 34px; height: 34px; color: #26201e; background: #f4eee9; border: 0; border-radius: 50%; font: 1.6rem Arial,sans-serif; cursor: pointer; }
+.dialog-done { margin-top: 10px; padding: 11px 17px; color: white; background: #c84620; border: 0; border-radius: 999px; font: 700 .84rem Arial,sans-serif; cursor: pointer; }
+@media (max-width: 760px) {
+  .site-header { grid-template-columns: 1fr auto; gap: 8px; min-height: 74px; padding: 8px 16px; }
+  .site-brand img { width: 34px; height: 43px; }
+  .site-brand { font-size: 1rem; }
+  .main-nav { grid-row: 2; grid-column: 1 / -1; justify-content: space-between; gap: 2px; width: 100%; }
+  .nav-link { padding: 7px 8px; font-size: .88rem; }
+  .account-area { grid-row: 1; grid-column: 2; }
+  .account-button { width: 37px; height: 37px; }
+  .landing-content { width: calc(100% - 32px); padding-top: 18px; }
+  .hub-banner { min-height: 190px; padding: 20px; border-radius: 18px; }
+  .banner-wordmark span { font-size: clamp(3.4rem, 16vw, 6rem); }
+  .banner-wordmark strong { font-size: clamp(2.7rem, 12vw, 4.5rem); }
+  .banner-emblem { right: 4%; width: 42%; height: 82%; }
+  .banner-tagline { display: none; }
+  .news-section { padding-top: 25px; }
+  .news-intro { margin-bottom: 20px; font-size: .9rem; }
+  .featured-story { grid-template-columns: 1fr; }
+  .feature-image { min-height: 235px; }
+  .feature-copy { min-height: 255px; padding: 28px; }
+  .feature-copy h2 { padding-right: 13px; font-size: 1.45rem; }
+  .round-arrow { right: 14px; width: 32px; height: 32px; }
+  .story-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-top: 28px; }
+  .card-copy { padding: 11px; }
+  .card-copy h3 { font-size: .78rem; }
+  .card-copy p { font-size: .68rem; }
+}
+@media (max-width: 390px) {
+  .nav-link { padding: 7px 6px; font-size: .8rem; }
+  .story-grid { gap: 10px; }
+  .card-copy h3 { font-size: .72rem; }
+  .card-copy p { font-size: .64rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-link, .account-button, .feature-image, .card-image, .story-card, .round-arrow, .read-more { transition: none; }
+  .nav-feedback.is-visible { animation: none; opacity: 1; transform: none; }
+}

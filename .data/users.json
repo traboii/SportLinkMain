@@ -24,5 +24,12 @@
     "role": "admin",
     "salt": "09170f182d69802d4c1f61d12ed3a35d",
     "passwordHash": "07461b3d61e4b4ba4d32cac27e69d3f95a90e771eb7108f93e84c0ad2e7c38cf4cd160091cd3159ded4ee6ecd4231fe4e5dcb7b5e4bc24b26622fe745159f459"
+  },
+  {
+    "id": "82fb4a3c-c749-4507-990c-eb85d5d1284a",
+    "email": "aronilagan9@gmail.com",
+    "name": "Ilagan Aron",
+    "provider": "google",
+    "googleId": "117421198648716017187"
   }
 ]
