@@ -126,14 +126,95 @@ document.querySelectorAll(".nav-link").forEach(button => button.addEventListener
   });
   const section = button.dataset.nav;
   if (section === "News") {
+    document.querySelector("#map-page").hidden = true;
     document.querySelector("#article-view").hidden = true;
     document.querySelector(".news-section").hidden = false;
     document.querySelector(".breadcrumb").scrollIntoView({ behavior: "smooth", block: "start" });
     showFeedback("You’re viewing the latest CCS news.");
+  } else if (section === "Map") {
+    document.querySelector(".news-section").hidden = true;
+    document.querySelector("#article-view").hidden = true;
+    document.querySelector("#map-page").hidden = false;
+    initSportMap();
+    document.querySelector("#map-title").scrollIntoView({ behavior: "smooth", block: "start" });
+    showFeedback("Explore sports and common game locations around Olongapo.");
   } else {
     showFeedback(`${section} is coming soon. Check back when this section is ready!`);
   }
 }));
+
+const sports = {
+  Volleyball: { color: "#ff573d", icon: "◉" }, Swimming: { color: "#0755b8", icon: "≈" }, Basketball: { color: "#ffd84c", icon: "●" },
+  "E-sports": { color: "#c45be7", icon: "⌘" }, Badminton: { color: "#53d9df", icon: "✦" }, Taekwondo: { color: "#fa3028", icon: "✦" }, Chess: { color: "#ed4cae", icon: "♟" }, Others: { color: "#00bd70", icon: "●" }
+};
+const sportLocations = [
+  { id:"gordon", name:"Gordon College Campus", sports:["Volleyball","Basketball","Taekwondo","Badminton","E-sports","Chess","Others"], address:"Olongapo City Sports Complex, Donor Street, East Tapinac", lat:14.8329,lng:120.2822, image:"assets/ccs-campus-background.png", time:"TBA", matchup:"CCS vs Visiting Teams", division:"Men’s", status:"Upcoming" },
+  { id:"ymca", name:"YMCA Swimming Pool", sports:["Swimming"], address:"Donor Street, East Tapinac, Olongapo City", lat:14.832543,lng:120.283312, image:"assets/ccs-banner-crowd.png", time:"TBA", matchup:"CCS Swim Team Practice", division:"Open", status:"Upcoming" },
+  { id:"rizal", name:"Rizal Triangle Covered Court", sports:["Volleyball","Basketball"], address:"Rizal Triangle, Olongapo City", lat:14.84152,lng:120.28688, image:"assets/sportlink-background.jpg", time:"TBA", matchup:"CCS vs CBA", division:"Men’s", status:"Ongoing" }
+];
+const sportColors = Object.fromEntries(Object.entries(sports).map(([name, data]) => [name, data.color]));
+let mapInstance, mapLayer, activeLocation = sportLocations[2], activeSport = "All", searchTerm = "", markerById = new Map();
+function initSportMap() {
+  renderLegend(); renderLocationCards(); renderDetails(activeLocation);
+  if (mapInstance || !window.L) return;
+  mapInstance = L.map("sport-map", { scrollWheelZoom: true }).setView([14.837,120.284], 14);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(mapInstance);
+  mapLayer = L.layerGroup().addTo(mapInstance);
+  renderMapMarkers();
+  setTimeout(() => mapInstance.invalidateSize(), 120);
+}
+function locationVisible(place) {
+  const queryMatch = !searchTerm || `${place.name} ${place.address} ${place.sports.join(" ")} ${place.matchup}`.toLowerCase().includes(searchTerm);
+  return queryMatch && (activeSport === "All" || place.sports.includes(activeSport) || (activeSport === "Others" && place.sports.some(s => ["Others","Taekwondo","Badminton","Chess"].includes(s))));
+}
+function markerIcon(place) {
+  const sport = sports[place.sports[0]] || sports.Others;
+  return L.divIcon({ className:"", html:`<span class="sport-marker${activeLocation?.id === place.id ? " is-selected" : ""}" style="background:${sport.color}">${sport.icon}</span>`, iconSize:[34,34], iconAnchor:[17,17] });
+}
+function renderMapMarkers() {
+  if (!mapLayer || !window.L) return;
+  mapLayer.clearLayers(); markerById.clear();
+  sportLocations.filter(locationVisible).forEach(place => {
+    const marker = L.marker([place.lat,place.lng], { icon:markerIcon(place), title:place.name, alt:`${place.sports.join(", ")} at ${place.name}` }).addTo(mapLayer);
+    marker.on("click", () => selectLocation(place, false)); markerById.set(place.id, marker);
+  });
+}
+function renderDetails(place) {
+  const sport = place.sports[0], badge = sports[sport] || sports.Others;
+  document.querySelector("#details-content").innerHTML = `<div class="detail-body"><p class="detail-sport"><span class="sport-badge" style="background:${badge.color}">${badge.icon}</span><strong>${escapeHtml(sport)}</strong><span class="status-pill">${escapeHtml(place.status)}</span></p><p class="detail-address"><span>⌖</span><span>${escapeHtml(place.name)}</span></p><img class="detail-photo" src="${escapeHtml(place.image)}" alt="${escapeHtml(place.name)}" /><div class="detail-rows"><div class="detail-row"><span class="row-icon">◷</span><strong>Time</strong><span>${escapeHtml(place.time)}</span></div><div class="detail-row"><span class="row-icon">♟</span><strong>Matchup</strong><span>${escapeHtml(place.matchup)}</span></div><div class="detail-row"><span class="row-icon">♙</span><strong>Division</strong><span>${escapeHtml(place.division)}</span></div><div class="detail-row"><span class="row-icon">◌</span><strong>Status</strong><span class="status-pill">${escapeHtml(place.status)}</span></div></div></div>`;
+  document.querySelector("#match-details").hidden = false;
+}
+function selectLocation(place, pan = true) {
+  activeLocation = place; renderDetails(place); renderMapMarkers(); renderLocationCards();
+  if (pan && mapInstance) mapInstance.flyTo([place.lat,place.lng], Math.max(mapInstance.getZoom(),15), { duration:.45 });
+}
+function renderLegend() {
+  const names = ["Volleyball","Swimming","Taekwondo","Badminton","Basketball","E-sports","Chess","Others"];
+  document.querySelector("#legend-items").innerHTML = names.map(name => `<div class="legend-item"><span class="legend-swatch" style="background:${sportColors[name]}"></span>${escapeHtml(name)}</div>`).join("");
+}
+function renderLocationCards() {
+  const places = sportLocations.filter(locationVisible);
+  document.querySelector("#location-track").innerHTML = places.length ? places.map(place => `<button class="location-card" type="button" data-location="${place.id}" aria-label="Show ${escapeHtml(place.name)} on map"><img src="${escapeHtml(place.image)}" alt="" loading="lazy" /><strong>${escapeHtml(place.name)}</strong></button>`).join("") : `<p class="location-empty">No matching sports locations. Try another sport or search.</p>`;
+}
+document.querySelector(".sport-filters").addEventListener("click", event => {
+  const button = event.target.closest(".sport-filter"); if (!button) return;
+  activeSport = button.dataset.sport;
+  document.querySelectorAll(".sport-filter").forEach(filter => { const selected = filter === button; filter.classList.toggle("is-active",selected); filter.setAttribute("aria-pressed",String(selected)); });
+  const filtered = sportLocations.filter(locationVisible);
+  if (!filtered.some(place => place.id === activeLocation.id) && filtered[0]) selectLocation(filtered[0]);
+  renderMapMarkers(); renderLocationCards();
+});
+document.querySelector("#map-search").addEventListener("input", event => {
+  searchTerm = event.target.value.trim().toLowerCase();
+  const filtered = sportLocations.filter(locationVisible);
+  if (!filtered.some(place => place.id === activeLocation.id) && filtered[0]) selectLocation(filtered[0]);
+  renderMapMarkers(); renderLocationCards();
+});
+document.querySelector("#location-track").addEventListener("click", event => { const card = event.target.closest(".location-card"); const place = sportLocations.find(item => item.id === card?.dataset.location); if (place) selectLocation(place); });
+document.querySelector("#locations-prev").addEventListener("click", () => document.querySelector("#location-track").scrollBy({ left:-320,behavior:"smooth" }));
+document.querySelector("#locations-next").addEventListener("click", () => document.querySelector("#location-track").scrollBy({ left:320,behavior:"smooth" }));
+document.querySelector("#close-details").addEventListener("click", () => { document.querySelector("#match-details").hidden = true; });
+document.querySelector("#map-locate").addEventListener("click", () => { if (mapInstance) mapInstance.flyTo([14.837,120.284],14); });
 
 const storyDialog = document.querySelector("#story-dialog");
 function openStory(card) {

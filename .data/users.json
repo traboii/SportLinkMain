@@ -31,5 +31,14 @@
     "name": "Ilagan Aron",
     "provider": "google",
     "googleId": "117421198648716017187"
+  },
+  {
+    "id": "46688b52-5627-4616-9eff-e83d250c1e86",
+    "email": "adydelacruz04@gmail.com",
+    "name": "adydelacruz04",
+    "provider": "password",
+    "role": "client",
+    "salt": "17c771d82310a3364ef7ef97ea50a1d3",
+    "passwordHash": "38682dc72a87439026c6bf723beb919ad8fba78b42b046472db7fd6980ed31c30caa50cc03c6334726128e6a7397b94896db1b9d839992188c71e99d9b9445ea"
   }
 ]

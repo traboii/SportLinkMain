@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#260000" />
     <title>SportLink | Welcome</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   </head>
   <body>
     <main class="page-shell" aria-labelledby="welcome-title">
@@ -95,6 +96,33 @@
             <div class="related-news" id="related-news"></div>
           </div>
         </article>
+        <section class="map-page" id="map-page" hidden aria-labelledby="map-title">
+          <p class="breadcrumb">HOME <span>/</span> MAP</p>
+          <h1 id="map-title">MAP</h1>
+          <p class="map-intro">Find your game!</p>
+          <label class="sr-only" for="map-search">Search teams, sports, or locations</label>
+          <div class="map-search-wrap"><input id="map-search" type="search" placeholder="Search teams, sports, or locations" autocomplete="off" /><span aria-hidden="true">⌕</span></div>
+          <div class="sport-filters" role="group" aria-label="Filter map by sport">
+            <button class="sport-filter is-active" type="button" data-sport="All" aria-pressed="true">ALL TEAMS</button>
+            <button class="sport-filter" type="button" data-sport="E-sports" aria-pressed="false">E-SPORTS</button>
+            <button class="sport-filter" type="button" data-sport="Basketball" aria-pressed="false">Basketball</button>
+            <button class="sport-filter" type="button" data-sport="Swimming" aria-pressed="false">Swimming</button>
+            <button class="sport-filter" type="button" data-sport="Volleyball" aria-pressed="false">Volleyball</button>
+            <button class="sport-filter" type="button" data-sport="Others" aria-pressed="false">Others</button>
+          </div>
+          <div class="map-layout">
+            <div class="map-canvas-wrap"><div id="sport-map" role="application" aria-label="Interactive map showing CCS sports locations"></div><button class="map-locate" id="map-locate" type="button" aria-label="Return to campus map center" title="Return to campus">◎</button></div>
+            <aside class="match-details" id="match-details" aria-live="polite">
+              <div class="details-heading"><h2>Match Details</h2><button id="close-details" type="button" aria-label="Close match details">×</button></div>
+              <div id="details-content"></div>
+            </aside>
+          </div>
+          <section class="map-legend" aria-labelledby="legend-title"><h2 id="legend-title">MAP LEGEND</h2><div class="legend-items" id="legend-items"></div></section>
+          <section class="key-locations" aria-labelledby="locations-title">
+            <div class="locations-heading"><div><h2 id="locations-title">KEY LOCATIONS</h2><p>Common locations</p></div><div class="location-controls"><button type="button" id="locations-prev" aria-label="Scroll locations left">‹</button><button type="button" id="locations-next" aria-label="Scroll locations right">›</button></div></div>
+            <div class="location-track" id="location-track" tabindex="0" aria-label="Common sports locations"></div>
+          </section>
+        </section>
       </div>
       <div class="nav-feedback" id="nav-feedback" role="status" aria-live="polite"></div>
       <dialog class="story-dialog" id="story-dialog">
@@ -106,6 +134,7 @@
       </dialog>
     </main>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="script.js"></script>
   </body>
 </html>
