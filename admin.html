@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#260000" />
     <title>SportLink | Admin</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   </head>
   <body class="admin-page">
     <main class="page-shell admin-shell">
@@ -28,14 +29,25 @@
           <div class="admin-brand"><img src="assets/orange-ccs-sportshub.png" alt="" /><div><strong>SportLink</strong><span>Admin dashboard</span></div><span class="admin-role-badge">ADMIN ACCOUNT</span></div>
           <button class="admin-logout" id="admin-logout" type="button">Log out</button>
         </header>
+        <nav class="admin-section-nav" aria-label="Admin pages"><a href="#news-admin">News</a><a class="is-active" href="#map-admin" aria-current="page">Map</a><a href="#events-admin">Events</a><a href="#teams-admin">Teams</a></nav>
         <div class="admin-content">
-          <p class="admin-eyebrow">ADMINISTRATION</p>
-          <h1 id="dashboard-title">Welcome, admin</h1>
+          <p class="admin-eyebrow">MAP ADMIN</p>
+          <h1 id="dashboard-title">Manage map locations</h1>
           <p class="admin-subtitle" id="admin-welcome"></p>
           <article class="admin-stat"><span>CLIENT ACCOUNTS</span><strong id="client-count">—</strong></article>
           <section class="admin-users-section">
             <div class="admin-list-heading"><h2>Registered users</h2><button id="refresh-users" type="button">Refresh</button></div>
             <div class="admin-user-list" id="admin-user-list"><p class="empty-users">Loading accounts…</p></div>
+          </section>
+          <section class="admin-map-editor" aria-label="Map location management">
+            <p class="admin-map-crumb">HOME / MAP / ORGANIZE EVENT</p>
+            <div class="admin-map-workflow"><strong>LOCATION &amp; MAP PINNING</strong><span>━━━━</span><strong>EVENT DETAILS</strong><span>━━━━</span><strong>SCHEDULE</strong><span>━━━━</span><strong>PUBLISHING</strong></div>
+            <div class="admin-map-layout"><section class="admin-map-main"><h2>📍 LOCATION &amp; MAP</h2><p>Right-click the map to add a pin. Select an existing pin to edit it.</p><div class="admin-map-search"><input id="admin-map-search" placeholder="Search for venue…" aria-label="Search for venue"></div><div id="admin-map" aria-label="Map location editor"></div><div class="admin-selected-location" id="pin-status">Right-click a location to add a pin.</div></section>
+              <section class="admin-pin-panel"><h2>📄 EVENT DETAILS</h2><form id="event-form"><label>Event Title *<input name="title" required></label><label>Description *<textarea name="description" required></textarea></label><div class="admin-pin-row"><label>Sport Category *<select name="sport"><option>Volleyball</option><option>Basketball</option><option>Swimming</option><option>E-sports</option><option>Others</option></select></label><label>Division *<select name="division"><option>Men’s</option><option>Women’s</option><option>Open</option></select></label></div><label>Matchup (Optional)<input name="matchup"></label><label>Cover Image *<input name="cover" type="file" accept="image/*"></label></form></section>
+              <section class="admin-map-legend admin-pin-edit"><h2>📍 SELECTED LOCATION / EDIT PIN</h2><form id="pin-form"><label>Location name *<input name="name" placeholder="Venue name" required></label><label>Address<input name="address" placeholder="Venue address"></label><div class="admin-pin-actions"><button type="submit">Save pin</button><button type="button" id="delete-pin">Delete pin</button></div></form></section>
+              <section class="admin-map-legend admin-schedule"><h2>▦ PUBLISHING SCHEDULE</h2><div class="admin-pin-row"><label>Start Date *<input form="event-form" name="startDate" type="date" required></label><label>End Date *<input form="event-form" name="endDate" type="date" required></label></div><div class="admin-pin-row"><label>Start Time *<input form="event-form" name="startTime" type="time" required></label><label>End Time *<input form="event-form" name="endTime" type="time" required></label></div><fieldset><legend>Status *</legend><label><input form="event-form" name="status" type="radio" value="Upcoming" checked> Upcoming</label><label><input form="event-form" name="status" type="radio" value="Ongoing"> Ongoing</label><label><input form="event-form" name="status" type="radio" value="Completed"> Completed</label></fieldset></section>
+              <section class="admin-map-locations admin-publishing"><h2>⇧ PUBLISHING</h2><button id="publish-event" type="button">🚀 Publish Event</button><p id="event-status" role="status"></p></section><section class="admin-map-locations"><h2>KEY LOCATIONS <span>Common locations</span></h2><div id="admin-pin-list"></div></section>
+            </div>
           </section>
           <section class="admin-news-editor" aria-labelledby="news-editor-title">
             <div class="admin-list-heading"><div><h2 id="news-editor-title">News and article content</h2><p>Edit the cards and article pages clients see.</p></div><button id="add-news-story" type="button">Add story</button></div>
@@ -61,6 +73,6 @@
         </div>
       </section>
     </main>
-    <script src="admin.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="admin.js"></script>
   </body>
 </html>

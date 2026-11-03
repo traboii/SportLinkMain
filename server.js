@@ -9,6 +9,8 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "335963324849-hk9le3koh
 const ROOT = __dirname;
 const USERS_FILE = path.join(ROOT, ".data", "users.json");
 const NEWS_FILE = path.join(ROOT, ".data", "news.json");
+const MAP_LOCATIONS_FILE = path.join(ROOT, ".data", "map-locations.json");
+const EVENTS_FILE = path.join(ROOT, ".data", "events.json");
 const sessions = new Map();
 const MIME_TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml" };
 async function readUsers() { try { return JSON.parse(await fs.promises.readFile(USERS_FILE, "utf8")); } catch (e) { if (e.code === "ENOENT") return []; throw e; } }
@@ -39,6 +41,17 @@ async function createAdminFromTerminal() {
   } finally { terminal.close(); }
 }
 async function handleApi(req, res, url) {
+  if (req.method === "GET" && url.pathname === "/api/events") { try { return json(res,200,JSON.parse(await fs.promises.readFile(EVENTS_FILE,"utf8"))); } catch(e) { if(e.code==="ENOENT") return json(res,200,{events:[]}); throw e; } }
+  if ((req.method === "GET" || req.method === "PUT") && url.pathname === "/api/admin/events") { const session=sessions.get(cookie(req));if(!session||session.expires<Date.now())return json(res,401,{error:"Please log in again."});const users=await readUsers();if(!users.some(u=>u.id===session.userId&&u.role==="admin"))return json(res,403,{error:"Admin access required."});if(req.method==="GET"){try{return json(res,200,JSON.parse(await fs.promises.readFile(EVENTS_FILE,"utf8")))}catch(e){if(e.code==="ENOENT")return json(res,200,{events:[]});throw e}}let data;try{data=await body(req,12*1024*1024)}catch(e){return json(res,400,{error:e.message})}if(!Array.isArray(data.events))return json(res,400,{error:"Invalid events."});await fs.promises.mkdir(path.dirname(EVENTS_FILE),{recursive:true});await fs.promises.writeFile(EVENTS_FILE,JSON.stringify({events:data.events},null,2));return json(res,200,{events:data.events}); }
+  if (req.method === "GET" && url.pathname === "/api/map-locations") { try { return json(res,200,JSON.parse(await fs.promises.readFile(MAP_LOCATIONS_FILE,"utf8"))); } catch(e) { if(e.code==="ENOENT") return json(res,200,{locations:[]}); throw e; } }
+  if ((req.method === "GET" || req.method === "PUT") && url.pathname === "/api/admin/map-locations") {
+    const session=sessions.get(cookie(req)); if(!session||session.expires<Date.now()) return json(res,401,{error:"Please log in again."});
+    const users=await readUsers(), admin=users.find(user=>user.id===session.userId&&user.role==="admin"); if(!admin) return json(res,403,{error:"Admin access required."});
+    if(req.method==="GET"){try{return json(res,200,JSON.parse(await fs.promises.readFile(MAP_LOCATIONS_FILE,"utf8")));}catch(e){if(e.code==="ENOENT")return json(res,200,{locations:[]});throw e;}}
+    let data;try{data=await body(req,1024*1024)}catch(e){return json(res,400,{error:e.message})} if(!Array.isArray(data.locations)||data.locations.length>500)return json(res,400,{error:"Invalid map locations."});
+    const locations=data.locations.map(p=>({id:String(p.id||crypto.randomUUID()).slice(0,80),name:String(p.name||"").trim().slice(0,120),sport:String(p.sport||"Others").slice(0,40),division:String(p.division||"Open").slice(0,40),address:String(p.address||"").slice(0,240),info:String(p.info||"").slice(0,2000),lat:Number(p.lat),lng:Number(p.lng)})).filter(p=>p.name&&Number.isFinite(p.lat)&&Number.isFinite(p.lng)&&Math.abs(p.lat)<=90&&Math.abs(p.lng)<=180);
+    await fs.promises.mkdir(path.dirname(MAP_LOCATIONS_FILE),{recursive:true});await fs.promises.writeFile(MAP_LOCATIONS_FILE,JSON.stringify({locations},null,2));return json(res,200,{locations});
+  }
   if (req.method === "GET" && url.pathname === "/api/news") { try { return json(res, 200, JSON.parse(await fs.promises.readFile(NEWS_FILE, "utf8"))); } catch (e) { if (e.code === "ENOENT") return json(res, 200, { stories: [] }); throw e; } }
   if (req.method === "GET" && url.pathname === "/api/config") return json(res, 200, { googleClientId: GOOGLE_CLIENT_ID });
   if (req.method === "GET" && url.pathname === "/api/session") { const id = cookie(req), session = sessions.get(id); if (!session || session.expires < Date.now()) { sessions.delete(id); return json(res, 200, { user: null }); } const user = (await readUsers()).find(u => u.id === session.userId); return json(res, 200, { user: user ? { ...publicUser(user), role: user.role || "client" } : null }); }

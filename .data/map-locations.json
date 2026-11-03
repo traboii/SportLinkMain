@@ -1,0 +1,24 @@
+{
+  "locations": [
+    {
+      "id": "0811f29a-35c8-45a2-a90f-71c3cf1d179e",
+      "name": "Tapinac Basketball Court",
+      "sport": "Basketball",
+      "division": "Open",
+      "address": "E 9th St / E 10th St, East Tapinac, Olongapo City",
+      "info": "",
+      "lat": 14.831724910904148,
+      "lng": 120.28285164678326
+    },
+    {
+      "id": "dfb109d9-3e3c-43a7-b79b-623421db9815",
+      "name": "YMCA",
+      "sport": "Swimming",
+      "division": "Open",
+      "address": "Gordon College ",
+      "info": "",
+      "lat": 14.832632403923581,
+      "lng": 120.28323758977139
+    }
+  ]
+}

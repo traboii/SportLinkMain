@@ -41,9 +41,9 @@
           <button class="nav-link" type="button" data-nav="Map" aria-pressed="false">Map</button>
           <button class="nav-link" type="button" data-nav="Events" aria-pressed="false">Events</button>
           <button class="nav-link" type="button" data-nav="Teams" aria-pressed="false">Teams</button>
-          <button class="nav-link" type="button" data-nav="Notification" aria-pressed="false">Notification</button>
         </nav>
         <div class="account-area">
+          <div class="notification-area"><button class="notification-button" id="notification-button" type="button" aria-label="Notifications" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span id="notification-count" hidden></span></button><section class="notification-panel" id="notification-panel" hidden aria-label="Notifications"><header><strong>Notifications</strong><button type="button" id="mark-notifications-read">Mark all as read</button></header><div id="notification-list"></div><button type="button" id="see-all-notifications">See All</button></section></div>
           <button class="account-button" id="account-button" type="button" aria-label="Account menu" aria-expanded="false">
             <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="currentColor"/><circle cx="24" cy="17" r="8" fill="white"/><path d="M9 39c2-8 7-13 15-13s13 5 15 13" fill="white"/></svg>
           </button>
@@ -123,6 +123,18 @@
             <div class="location-track" id="location-track" tabindex="0" aria-label="Common sports locations"></div>
           </section>
         </section>
+        <section class="events-page" id="events-page" hidden aria-labelledby="events-title">
+          <h1 id="events-title">EVENTS</h1><span class="events-accent"></span><p class="events-crumb">HOME / EVENTS</p>
+          <div class="event-filters" role="group" aria-label="Filter events"><button class="event-filter is-active" data-filter="All" aria-pressed="true">ALL</button><button class="event-filter" data-filter="Upcoming" aria-pressed="false">Upcoming</button><button class="event-filter" data-filter="Ongoing" aria-pressed="false">Ongoing</button><button class="event-filter" data-filter="Past" aria-pressed="false">Past</button></div>
+          <p class="events-intro">Join the action! Check out the latest CCS sports<br class="desktop-break"> events, competitions, and activities.</p>
+          <div class="events-grid" id="events-grid"></div>
+        </section>
+        <section id="teams-page" class="teams-page" hidden aria-labelledby="teams-title">
+          <p class="breadcrumb">HOME / TEAMS</p><div class="team-tools"><input id="team-search" aria-label="Search teams" type="search"><button id="team-sort" type="button">SORT: <strong>FEATURED</strong></button></div>
+          <div class="team-filters" role="group" aria-label="Filter teams"><button class="team-filter is-active" data-filter="All">ALL TEAMS</button><button class="team-filter" data-filter="E-sports">E-SPORTS</button><button class="team-filter" data-filter="Basketball">Basketball</button><button class="team-filter" data-filter="Swimming">Swimming</button><button class="team-filter" data-filter="Volleyball">Volleyball</button><button class="team-filter" data-filter="Others">Others</button></div>
+          <h1 id="teams-title">EXPLORE OUR TEAMS.</h1><p>Check out these incredible CCS athletes!</p><div id="team-grid" class="team-grid"></div>
+        </section>
+        <section id="team-detail" class="team-detail" hidden></section>
       </div>
       <div class="nav-feedback" id="nav-feedback" role="status" aria-live="polite"></div>
       <dialog class="story-dialog" id="story-dialog">

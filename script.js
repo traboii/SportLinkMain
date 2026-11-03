@@ -82,11 +82,20 @@ accountButton.addEventListener("click", () => {
   accountButton.setAttribute("aria-expanded", String(opening));
 });
 document.addEventListener("click", event => {
+  if (!event.target.closest(".notification-area")) { notificationPanel.hidden=true; notificationButton.setAttribute("aria-expanded","false"); }
   if (!event.target.closest(".account-area")) {
     accountMenu.hidden = true;
     accountButton.setAttribute("aria-expanded", "false");
   }
 });
+const notificationButton=document.querySelector("#notification-button"),notificationPanel=document.querySelector("#notification-panel");
+let clientNotifications=[],readNotifications=new Set(JSON.parse(localStorage.getItem("sportlink-read-notifications")||"[]"));
+function renderNotifications(){const list=document.querySelector("#notification-list"),unread=clientNotifications.filter(n=>!readNotifications.has(n.id));const count=document.querySelector("#notification-count");count.hidden=!unread.length;count.textContent=unread.length;list.innerHTML=clientNotifications.length?clientNotifications.slice(0,4).map(n=>{const key=({"E-sports":"esports"})[n.sport]||String(n.sport||"others").toLowerCase();const time=n.createdAt?new Date(n.createdAt).toLocaleString(undefined,{year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"2-digit",hour12:true}):"Recently";return `<button class="notification-item${readNotifications.has(n.id)?" is-read":""}" data-notification="${escapeHtml(n.id)}"><span class="notification-icon"><img src="assets/legend-${escapeHtml(key)}.png" alt=""></span><span><strong>${escapeHtml(n.title)}</strong><small>${escapeHtml(time)}</small></span>${readNotifications.has(n.id)?"":"<i></i>"}</button>`}).join(""):'<p class="notification-empty">No notifications yet.</p>'}
+fetch("/api/events").then(r=>r.json()).then(({events=[]})=>{clientNotifications=events.map(e=>({id:String(e.createdAt||e.title),title:`New ${e.sport||"sports"} event: ${e.title}`,sport:e.sport,createdAt:e.createdAt})).reverse();renderNotifications()}).catch(renderNotifications);
+notificationButton.addEventListener("click",()=>{notificationPanel.hidden=!notificationPanel.hidden;notificationButton.setAttribute("aria-expanded",String(!notificationPanel.hidden))});
+document.querySelector("#mark-notifications-read").addEventListener("click",()=>{clientNotifications.forEach(n=>readNotifications.add(n.id));localStorage.setItem("sportlink-read-notifications",JSON.stringify([...readNotifications]));renderNotifications()});
+document.querySelector("#notification-list").addEventListener("click",e=>{const item=e.target.closest("[data-notification]");if(!item)return;readNotifications.add(item.dataset.notification);localStorage.setItem("sportlink-read-notifications",JSON.stringify([...readNotifications]));renderNotifications();notificationPanel.hidden=true;notificationButton.setAttribute("aria-expanded","false");document.querySelector('[data-nav="Events"]').click()});
+document.querySelector("#see-all-notifications").addEventListener("click",()=>{notificationPanel.hidden=true;notificationButton.setAttribute("aria-expanded","false");document.querySelector('[data-nav="Events"]').click()});
 
 const storyGrid = document.querySelector("#story-grid");
 const relatedNews = document.querySelector("#related-news");
@@ -119,6 +128,11 @@ function showFeedback(text) {
 }
 
 document.querySelectorAll(".nav-link").forEach(button => button.addEventListener("click", () => {
+  document.body.classList.remove("team-detail-mode","team-long-title");
+  document.querySelector(".banner-wordmark").innerHTML="<span>CCS</span><strong>SPORTS<br>HUB</strong>";
+  document.querySelector(".banner-emblem").innerHTML='<img src="assets/ccs-phoenix-cutout.png" alt="CCS phoenix">';
+  document.querySelector(".banner-tagline").hidden=false;
+  ["#map-page","#events-page","#teams-page","#team-detail"].forEach(id=>document.querySelector(id).hidden=true);
   document.querySelectorAll(".nav-link").forEach(link => {
     const active = link === button;
     link.classList.toggle("is-active", active);
@@ -132,28 +146,38 @@ document.querySelectorAll(".nav-link").forEach(button => button.addEventListener
     document.querySelector(".breadcrumb").scrollIntoView({ behavior: "smooth", block: "start" });
     showFeedback("You’re viewing the latest CCS news.");
   } else if (section === "Map") {
+    document.querySelector("#events-page").hidden = true;
     document.querySelector(".news-section").hidden = true;
     document.querySelector("#article-view").hidden = true;
     document.querySelector("#map-page").hidden = false;
     initSportMap();
     document.querySelector("#map-title").scrollIntoView({ behavior: "smooth", block: "start" });
     showFeedback("Explore sports and common game locations around Olongapo.");
+  } else if (section === "Events") {
+    document.querySelector(".news-section").hidden = true; document.querySelector("#article-view").hidden = true; document.querySelector("#map-page").hidden = true; document.querySelector("#events-page").hidden = false;
+    renderEvents(); document.querySelector("#events-title").scrollIntoView({behavior:"smooth",block:"start"});
+  } else if (section === "Teams") {
+    document.querySelector(".news-section").hidden=true;document.querySelector("#article-view").hidden=true;document.querySelector("#teams-page").hidden=false;document.querySelector(".banner-wordmark").innerHTML="<span>CCS</span><strong>SPORTS<br>HUB</strong>";document.querySelector(".banner-emblem").innerHTML='<img src="assets/ccs-phoenix-cutout.png" alt="CCS phoenix">';document.querySelector(".banner-tagline").hidden=false;renderTeams();
   } else {
     showFeedback(`${section} is coming soon. Check back when this section is ready!`);
   }
 }));
 
+let eventData = [["CCS Basketball Tournament","November 15, 2026 – November 16, 2026 | 8:00 AM – 5:00 PM","Gordon College Covered Court","Upcoming"],["CCS Volleyball League","November 28, 2026 – December 3, 2026 | 8:00 AM – 4:00 PM","Gordon College Covered Court","Upcoming"],["CCS Track & Field Meet","November 18, 2026 | 6:00 AM – 12:00 PM","Gordon College Track Oval","Upcoming"],["Taekwondo Training Camp","October 28, 2026 – November 1, 2026 | 2:00 PM – 6:00 PM","Gordon College Covered Court","Ongoing"],["CCS Hip Hop Dance Competition","October 10, 2025 | 10:00 AM – 6:00 PM","Gordon College Covered Court","Past"],["CCS Swimming Invitational","September 26, 2026 – September 27, 2026 | 7:00 AM – 5:00 PM","GC Swimming Pool","Past"],...Array.from({length:6},()=>["CCS Basketball Tournament","November 15, 2025 – November 16, 2025 | 8:00 AM – 5:00 PM","Gordon College Covered Court","Ongoing"])];
+let eventFilter="All";fetch("/api/events").then(r=>r.json()).then(({events=[]})=>{eventData=[...eventData,...events.map(e=>[e.title,`${e.startDate} ${e.startTime} – ${e.endDate} ${e.endTime}`,e.location?.name||e.location?.address||"Sports location",e.status==="Completed"?"Past":e.status,e.cover])];if(!document.querySelector("#events-page").hidden)renderEvents()}).catch(()=>{});
+function renderEvents(){const grid=document.querySelector("#events-grid");grid.innerHTML=eventData.filter(e=>eventFilter==="All"||e[3]===eventFilter).map(e=>`<article class="event-card"><div class="event-image" style="${e[4]?`background-image:url(${JSON.stringify(e[4])})`:""}"><span class="event-status ${e[3].toLowerCase()}">${e[3].toUpperCase()}</span></div><div class="event-copy"><strong>${e[0]}</strong><p>▦ &nbsp;${e[1]}</p><p>♟ &nbsp;${e[2]}</p></div><span class="event-arrow" aria-hidden="true">›</span></article>`).join("");const observer=new IntersectionObserver(entries=>entries.forEach(x=>{if(x.isIntersecting){x.target.classList.add("is-visible");observer.unobserve(x.target)}}),{threshold:.12});grid.querySelectorAll(".event-card").forEach(card=>observer.observe(card));}
+document.querySelector(".event-filters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;eventFilter=b.dataset.filter;document.querySelectorAll(".event-filter").forEach(x=>{x.classList.toggle("is-active",x===b);x.setAttribute("aria-pressed",String(x===b))});renderEvents()});
+
 const sports = {
   Volleyball: { color: "#ff573d", icon: "◉" }, Swimming: { color: "#0755b8", icon: "≈" }, Basketball: { color: "#ffd84c", icon: "●" },
   "E-sports": { color: "#c45be7", icon: "⌘" }, Badminton: { color: "#53d9df", icon: "✦" }, Taekwondo: { color: "#fa3028", icon: "✦" }, Chess: { color: "#ed4cae", icon: "♟" }, Others: { color: "#00bd70", icon: "●" }
 };
-const sportLocations = [
-  { id:"gordon", name:"Gordon College Campus", sports:["Volleyball","Basketball","Taekwondo","Badminton","E-sports","Chess","Others"], address:"Olongapo City Sports Complex, Donor Street, East Tapinac", lat:14.8329,lng:120.2822, image:"assets/ccs-campus-background.png", time:"TBA", matchup:"CCS vs Visiting Teams", division:"Men’s", status:"Upcoming" },
-  { id:"ymca", name:"YMCA Swimming Pool", sports:["Swimming"], address:"Donor Street, East Tapinac, Olongapo City", lat:14.832543,lng:120.283312, image:"assets/ccs-banner-crowd.png", time:"TBA", matchup:"CCS Swim Team Practice", division:"Open", status:"Upcoming" },
-  { id:"rizal", name:"Rizal Triangle Covered Court", sports:["Volleyball","Basketball"], address:"Rizal Triangle, Olongapo City", lat:14.84152,lng:120.28688, image:"assets/sportlink-background.jpg", time:"TBA", matchup:"CCS vs CBA", division:"Men’s", status:"Ongoing" }
-];
+const sportLocations = [];
 const sportColors = Object.fromEntries(Object.entries(sports).map(([name, data]) => [name, data.color]));
-let mapInstance, mapLayer, activeLocation = sportLocations[2], activeSport = "All", searchTerm = "", markerById = new Map();
+let mapInstance, mapLayer, activeLocation = null, activeSport = "All", searchTerm = "", markerById = new Map();
+let allSportLocations=[];
+async function loadAdminPins(){try{const [{locations=[]},{events=[]}]=await Promise.all([fetch("/api/map-locations").then(r=>r.json()),fetch("/api/events").then(r=>r.json())]);allSportLocations=locations.flatMap(p=>{const event=events.filter(e=>e.location?.id===p.id).at(-1);return event?[{...p,id:`admin-${p.id}`,sports:[event.sport||p.sport||"Others"],status:event.status||"Upcoming",startDate:event.startDate||"TBA",endDate:event.endDate||"TBA",startTime:event.startTime||"TBA",endTime:event.endTime||"",matchup:event.matchup||"",division:event.division||p.division||"Open",description:event.description||"",image:event.cover||"assets/ccs-campus-background.png",eventTitle:event.title}]:[]});if(!activeLocation&&allSportLocations.length)activeLocation=allSportLocations[0];if(mapInstance){renderMapMarkers();renderLocationCards();if(activeLocation)renderDetails(activeLocation)}}catch{}}
+loadAdminPins();
 function initSportMap() {
   renderLegend(); renderLocationCards(); renderDetails(activeLocation);
   if (mapInstance || !window.L) return;
@@ -169,19 +193,21 @@ function locationVisible(place) {
 }
 function markerIcon(place) {
   const sport = sports[place.sports[0]] || sports.Others;
-  return L.divIcon({ className:"", html:`<span class="sport-marker${activeLocation?.id === place.id ? " is-selected" : ""}" style="background:${sport.color}">${sport.icon}</span>`, iconSize:[34,34], iconAnchor:[17,17] });
+  const slug=place.sports[0].toLowerCase().replace(/[^a-z]+/g,"-"); return L.divIcon({ className:"", html:`<span class="sport-marker sport-marker--${slug}${activeLocation?.id === place.id ? " is-selected" : ""}" aria-label="${escapeHtml(place.sports[0])}"><img src="assets/legend-${slug.replace("e-sports","esports")}.png" alt=""></span>`, iconSize:[34,34], iconAnchor:[17,17] });
 }
 function renderMapMarkers() {
   if (!mapLayer || !window.L) return;
   mapLayer.clearLayers(); markerById.clear();
-  sportLocations.filter(locationVisible).forEach(place => {
+  allSportLocations.filter(locationVisible).forEach(place => {
     const marker = L.marker([place.lat,place.lng], { icon:markerIcon(place), title:place.name, alt:`${place.sports.join(", ")} at ${place.name}` }).addTo(mapLayer);
     marker.on("click", () => selectLocation(place, false)); markerById.set(place.id, marker);
   });
 }
 function renderDetails(place) {
+  if(!place){document.querySelector("#details-content").innerHTML='<div class="detail-empty">No published event selected.</div>';document.querySelector("#match-details").hidden=false;return}
   const sport = place.sports[0], badge = sports[sport] || sports.Others;
-  document.querySelector("#details-content").innerHTML = `<div class="detail-body"><p class="detail-sport"><span class="sport-badge" style="background:${badge.color}">${badge.icon}</span><strong>${escapeHtml(sport)}</strong><span class="status-pill">${escapeHtml(place.status)}</span></p><p class="detail-address"><span>⌖</span><span>${escapeHtml(place.name)}</span></p><img class="detail-photo" src="${escapeHtml(place.image)}" alt="${escapeHtml(place.name)}" /><div class="detail-rows"><div class="detail-row"><span class="row-icon">◷</span><strong>Time</strong><span>${escapeHtml(place.time)}</span></div><div class="detail-row"><span class="row-icon">♟</span><strong>Matchup</strong><span>${escapeHtml(place.matchup)}</span></div><div class="detail-row"><span class="row-icon">♙</span><strong>Division</strong><span>${escapeHtml(place.division)}</span></div><div class="detail-row"><span class="row-icon">◌</span><strong>Status</strong><span class="status-pill">${escapeHtml(place.status)}</span></div></div></div>`;
+  const iconName={"Volleyball":"volleyball","Swimming":"swimming","Basketball":"basketball","E-sports":"esports","Taekwondo":"taekwondo","Badminton":"badminton","Chess":"chess","Others":"others"}[sport]||"others";
+  document.querySelector("#details-content").innerHTML = `<div class="detail-body"><p class="detail-sport"><span class="sport-badge"><img src="assets/legend-${iconName}.png" alt=""></span><strong>${escapeHtml(sport)}</strong><span class="status-pill">${escapeHtml(place.status)}</span></p><h3 class="published-event-title">${escapeHtml(place.eventTitle||sport)}</h3><p class="detail-address"><span>⌖</span><span>${escapeHtml(place.address||place.name)}</span></p>${place.description?`<p class="published-event-description">${escapeHtml(place.description)}</p>`:""}<img class="detail-photo" src="${escapeHtml(place.image)}" alt="${escapeHtml(place.eventTitle||place.name)}" /><div class="detail-rows"><div class="detail-row"><span class="row-icon">◷</span><strong>Schedule</strong><span>${escapeHtml(place.startDate)} – ${escapeHtml(place.endDate)}</span></div><div class="detail-row"><span class="row-icon">◷</span><strong>Time</strong><span>${escapeHtml(place.startTime)}${place.endTime?` – ${escapeHtml(place.endTime)}`:""}</span></div><div class="detail-row"><span class="row-icon">♟</span><strong>Matchup</strong><span>${escapeHtml(place.matchup||"—")}</span></div><div class="detail-row"><span class="row-icon">♙</span><strong>Division</strong><span>${escapeHtml(place.division)}</span></div><div class="detail-row"><span class="row-icon">◌</span><strong>Status</strong><span class="status-pill">${escapeHtml(place.status)}</span></div></div></div>`;
   document.querySelector("#match-details").hidden = false;
 }
 function selectLocation(place, pan = true) {
@@ -190,32 +216,37 @@ function selectLocation(place, pan = true) {
 }
 function renderLegend() {
   const names = ["Volleyball","Swimming","Taekwondo","Badminton","Basketball","E-sports","Chess","Others"];
-  document.querySelector("#legend-items").innerHTML = names.map(name => `<div class="legend-item"><span class="legend-swatch" style="background:${sportColors[name]}"></span>${escapeHtml(name)}</div>`).join("");
+  const icons={"Volleyball":"volleyball","Swimming":"swimming","Taekwondo":"taekwondo","Badminton":"badminton","Basketball":"basketball","E-sports":"esports","Chess":"chess","Others":"others"};
+  document.querySelector("#legend-items").innerHTML = names.map(name => `<div class="legend-item"><span class="legend-swatch" style="--legend-icon:url('assets/legend-${icons[name]}.png')"></span>${escapeHtml(name)}</div>`).join("");
 }
 function renderLocationCards() {
-  const places = sportLocations.filter(locationVisible);
+  const places = allSportLocations.filter(locationVisible);
   document.querySelector("#location-track").innerHTML = places.length ? places.map(place => `<button class="location-card" type="button" data-location="${place.id}" aria-label="Show ${escapeHtml(place.name)} on map"><img src="${escapeHtml(place.image)}" alt="" loading="lazy" /><strong>${escapeHtml(place.name)}</strong></button>`).join("") : `<p class="location-empty">No matching sports locations. Try another sport or search.</p>`;
 }
 document.querySelector(".sport-filters").addEventListener("click", event => {
   const button = event.target.closest(".sport-filter"); if (!button) return;
   activeSport = button.dataset.sport;
   document.querySelectorAll(".sport-filter").forEach(filter => { const selected = filter === button; filter.classList.toggle("is-active",selected); filter.setAttribute("aria-pressed",String(selected)); });
-  const filtered = sportLocations.filter(locationVisible);
+  const filtered = allSportLocations.filter(locationVisible);
   if (!filtered.some(place => place.id === activeLocation.id) && filtered[0]) selectLocation(filtered[0]);
   renderMapMarkers(); renderLocationCards();
 });
 document.querySelector("#map-search").addEventListener("input", event => {
   searchTerm = event.target.value.trim().toLowerCase();
-  const filtered = sportLocations.filter(locationVisible);
+  const filtered = allSportLocations.filter(locationVisible);
   if (!filtered.some(place => place.id === activeLocation.id) && filtered[0]) selectLocation(filtered[0]);
   renderMapMarkers(); renderLocationCards();
 });
-document.querySelector("#location-track").addEventListener("click", event => { const card = event.target.closest(".location-card"); const place = sportLocations.find(item => item.id === card?.dataset.location); if (place) selectLocation(place); });
+document.querySelector("#location-track").addEventListener("click", event => { const card = event.target.closest(".location-card"); const place = allSportLocations.find(item => item.id === card?.dataset.location); if (place) selectLocation(place); });
 document.querySelector("#locations-prev").addEventListener("click", () => document.querySelector("#location-track").scrollBy({ left:-320,behavior:"smooth" }));
 document.querySelector("#locations-next").addEventListener("click", () => document.querySelector("#location-track").scrollBy({ left:320,behavior:"smooth" }));
 document.querySelector("#close-details").addEventListener("click", () => { document.querySelector("#match-details").hidden = true; });
 document.querySelector("#map-locate").addEventListener("click", () => { if (mapInstance) mapInstance.flyTo([14.837,120.284],14); });
 
+const teamRows=[["CCS HIPHOP DANCERS","A passionate dance crew showcasing creativity, teamwork, and energy.","Others"],["CCS Phoenixes Esports","A competitive gaming team built on strategy and teamwork.","E-sports"],["CCS BASKETBALL TEAM","Skill, determination, and teamwork on the court.","Basketball"],["CCS VOLLEYBALL TEAM","Trust, coordination, and sportsmanship at every point.","Volleyball"],["CCS TAEKWONDO TEAM","Discipline, confidence, and focus through training.","Others"],["CCS BADMINTON TEAM","Quick reflexes and smart strategies on the court.","Others"],["CCS MOBILE LEGENDS SQUAD","Tactical plays and team coordination in every match.","E-sports"],["CCS Chess Club","Strategic thinkers and competitive play.","Others"],["CCS PHOENIX PEP SQUAD","School spirit and support at campus sports events.","Others"]];let teamFilter="All";
+function renderTeams(){document.querySelector("#team-grid").innerHTML=teamRows.filter(t=>teamFilter==="All"||t[2]===teamFilter).map(t=>`<article class="team-card"><img src="assets/ccs-banner-crowd.png" alt="CCS athletes"><strong>${t[0]}</strong><p>${t[1]}</p><button data-team="${teamRows.indexOf(t)}">View Teams</button></article>`).join("")}
+document.querySelector(".team-filters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;teamFilter=b.dataset.filter;document.querySelectorAll(".team-filter").forEach(x=>x.classList.toggle("is-active",x===b));renderTeams()});
+document.querySelector("#team-grid").addEventListener("click",e=>{const i=e.target.closest("[data-team]")?.dataset.team;if(i===undefined)return;const t=teamRows[Number(i)],d=document.querySelector("#team-detail");document.querySelector("#teams-page").hidden=true;d.hidden=false;document.body.classList.add("team-detail-mode");document.body.classList.toggle("team-long-title",t[0].length>18);document.querySelector(".banner-wordmark").innerHTML=`<span>CCS</span><strong>${t[0].replace(/^CCS /,"").replace(" TEAM","<br>TEAM")}</strong>`;document.querySelector(".banner-emblem").innerHTML='<img class="team-ball" src="assets/team-sport-balls.png" alt="">';document.querySelector(".banner-tagline").hidden=true;d.innerHTML=`<p class="breadcrumb">HOME / TEAMS / ${t[0]}</p><section class="team-overview"><div><h2>TEAM OVERVIEW</h2><p>${t[1]} The team proudly represents the College of Computer Studies, carrying the spirit and determination of our school in every game.</p><div class="team-stats"><span>🏆 <small>Recent Placement<br><b>1st Runner Up</b></small></span><span>♟ <small>Total Players<br><b>12 Players</b></small></span></div></div><img src="assets/ccs-banner-crowd.png" alt="${t[0]}"></section><h2 class="players-title">MEET OUR PLAYERS</h2><div class="player-carousel"><button data-dir="-1" aria-label="Previous players">‹</button><div class="player-track">${["Klent Josh Vargas","Kairo Eclarinal","Zandro Papa","John Lloyd Cruz","Vishu Mariano"].map(n=>`<article><img src="assets/ccs-phoenix-banner.png" alt="Player"><b>${n}</b><span>#9 | Player</span></article>`).join("")}</div><button data-dir="1" aria-label="Next players">›</button></div><aside class="join-team"><img src="assets/team-join-banner.png" alt="Join the team. Tryouts open in Google Forms."></aside>`;d.querySelectorAll("[data-dir]").forEach(b=>b.onclick=()=>d.querySelector(".player-track").scrollBy({left:Number(b.dataset.dir)*260,behavior:"smooth"}));});
 const storyDialog = document.querySelector("#story-dialog");
 function openStory(card) {
   document.querySelector("#article-title").textContent = card.dataset.story;
@@ -274,4 +305,8 @@ fetch("/api/config").then(response => response.json()).then(({ googleClientId })
   initialize();
 }).catch(() => { document.querySelector("#google-note").textContent = "Google sign-in is unavailable."; });
 
+const localDebugUser = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+  ? { email: "markaronilagan22@gmail.com", name: "Mark Aron Ilagan", provider: "debug" }
+  : null;
+if (localDebugUser) showUser(localDebugUser);
 fetch("/api/session", { credentials: "same-origin" }).then(response => response.json()).then(({ user }) => { if (user) showUser(user); }).catch(() => {});
