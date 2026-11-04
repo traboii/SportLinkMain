@@ -11,6 +11,19 @@ const USERS_FILE = path.join(ROOT, ".data", "users.json");
 const NEWS_FILE = path.join(ROOT, ".data", "news.json");
 const MAP_LOCATIONS_FILE = path.join(ROOT, ".data", "map-locations.json");
 const EVENTS_FILE = path.join(ROOT, ".data", "events.json");
+const TEAMS_FILE = path.join(ROOT, ".data", "teams.json");
+const DEFAULT_TEAMS = [
+  ["CCS HIPHOP DANCERS","A passionate dance crew that showcases creativity, teamwork, and energy through every performance.","Others"],
+  ["CCS Phoenixes Esports","A competitive gaming team that combines strategy, communication, and teamwork to take on every challenge.","E-sports"],
+  ["CCS BASKETBALL TEAM","A dedicated team that brings skill, determination, and teamwork to every game on the court.","Basketball"],
+  ["CCS VOLLEYBALL TEAM","A team built on trust, coordination, and sportsmanship, working together toward every point.","Volleyball"],
+  ["CCS TAEKWONDO TEAM","A group of martial artists developing discipline, confidence, and focus through training and competition.","Others"],
+  ["CCS BADMINTON TEAM","Quick reflexes and smart strategies drive this team as its players challenge themselves on the court.","Others"],
+  ["CCS MOBILE LEGENDS SQUAD","A squad focused on tactical plays, team coordination, and making smart decisions in every match.","E-sports"],
+  ["CCS Chess Club","A community of strategic thinkers sharpening their minds through friendly matches and competitive play.","Others"],
+  ["CCS PHOENIX PEP SQUAD","An energetic group that brings school spirit, excitement, and support to campus sports events.","Others"]
+].map((team,i)=>({id:`team-${i+1}`,name:team[0],summary:team[1],category:team[2],overview:`${team[1]} The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.`,placement:"1st Runner Up",playerCount:"12 Players",cover:"assets/ccs-banner-crowd.png",players:[{name:"Klent Josh Vargas",number:"9",position:"Open Hitter",image:"assets/ccs-phoenix-banner.png"},{name:"Kairo Eclarinal",number:"9",position:"Middle Blocker",image:"assets/ccs-phoenix-banner.png"},{name:"Zandro Papa",number:"9",position:"Middle Blocker",image:"assets/ccs-phoenix-banner.png"},{name:"John Lloyd Cruz",number:"9",position:"Open Hitter",image:"assets/ccs-phoenix-banner.png"},{name:"Vishu Mariano",number:"9",position:"Libero",image:"assets/ccs-phoenix-banner.png"}],joinBackground:"assets/team-join-banner.png",tryoutLink:""}));
+const DEFAULT_TEAM_PAGE = { title: "EXPLORE OUR TEAMS.", subtitle: "Check out these incredible CCS athletes!" };
 const sessions = new Map();
 const MIME_TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".svg": "image/svg+xml" };
 async function readUsers() { try { return JSON.parse(await fs.promises.readFile(USERS_FILE, "utf8")); } catch (e) { if (e.code === "ENOENT") return []; throw e; } }
@@ -41,6 +54,19 @@ async function createAdminFromTerminal() {
   } finally { terminal.close(); }
 }
 async function handleApi(req, res, url) {
+  if (req.method === "GET" && url.pathname === "/api/teams") { try { return json(res,200,JSON.parse(await fs.promises.readFile(TEAMS_FILE,"utf8"))); } catch(e) { if(e.code==="ENOENT") return json(res,200,{teams:DEFAULT_TEAMS,page:DEFAULT_TEAM_PAGE}); throw e; } }
+  if ((req.method === "GET" || req.method === "PUT") && url.pathname === "/api/admin/teams") {
+    const session=sessions.get(cookie(req)); if(!session||session.expires<Date.now()) return json(res,401,{error:"Please log in again."});
+    const users=await readUsers(); if(!users.some(user=>user.id===session.userId&&user.role==="admin")) return json(res,403,{error:"Admin access required."});
+    if(req.method==="GET"){try{return json(res,200,JSON.parse(await fs.promises.readFile(TEAMS_FILE,"utf8")))}catch(e){if(e.code==="ENOENT")return json(res,200,{teams:DEFAULT_TEAMS,page:DEFAULT_TEAM_PAGE});throw e}}
+    let data;try{data=await body(req,12*1024*1024)}catch(e){return json(res,400,{error:e.message})}
+    if(!Array.isArray(data.teams)||data.teams.length>30)return json(res,400,{error:"Teams must contain up to 30 entries."});
+    const plain=value=>String(value||"").trim().slice(0,12000),image=value=>{const src=String(value||"");return src.length<5*1024*1024&&(/^(assets\/[\w./-]+|data:image\/(png|jpeg|webp);base64,[a-z\d+/=]+)$/i.test(src))?src:""};
+    const teams=data.teams.map((team,index)=>({id:String(team.id||`team-${index+1}`).replace(/[^\w-]/g,"").slice(0,48),name:plain(team.name).slice(0,120),category:plain(team.category).slice(0,60)||"Others",summary:plain(team.summary).slice(0,500),overview:plain(team.overview),placement:plain(team.placement).slice(0,120),playerCount:plain(team.playerCount).slice(0,40),cover:image(team.cover),players:Array.isArray(team.players)?team.players.slice(0,40).map((player,i)=>({id:String(player.id||`player-${i+1}`).replace(/[^\w-]/g,"").slice(0,48),name:plain(player.name).slice(0,120),number:plain(player.number).slice(0,12),position:plain(player.position).slice(0,80),image:image(player.image)})).filter(player=>player.name):[],joinBackground:image(team.joinBackground),tryoutLink:/^https?:\/\/\S+$/i.test(String(team.tryoutLink||""))?plain(team.tryoutLink).slice(0,1000):""}));
+    if(teams.some(team=>!team.name))return json(res,400,{error:"Every team needs a name."});
+    const page={title:plain(data.page?.title||DEFAULT_TEAM_PAGE.title).slice(0,100),subtitle:plain(data.page?.subtitle||DEFAULT_TEAM_PAGE.subtitle).slice(0,220)};
+    await fs.promises.mkdir(path.dirname(TEAMS_FILE),{recursive:true});const tmp=`${TEAMS_FILE}.${process.pid}.tmp`;await fs.promises.writeFile(tmp,JSON.stringify({teams,page},null,2));await fs.promises.rename(tmp,TEAMS_FILE);return json(res,200,{teams,page});
+  }
   if (req.method === "GET" && url.pathname === "/api/events") { try { return json(res,200,JSON.parse(await fs.promises.readFile(EVENTS_FILE,"utf8"))); } catch(e) { if(e.code==="ENOENT") return json(res,200,{events:[]}); throw e; } }
   if ((req.method === "GET" || req.method === "PUT") && url.pathname === "/api/admin/events") { const session=sessions.get(cookie(req));if(!session||session.expires<Date.now())return json(res,401,{error:"Please log in again."});const users=await readUsers();if(!users.some(u=>u.id===session.userId&&u.role==="admin"))return json(res,403,{error:"Admin access required."});if(req.method==="GET"){try{return json(res,200,JSON.parse(await fs.promises.readFile(EVENTS_FILE,"utf8")))}catch(e){if(e.code==="ENOENT")return json(res,200,{events:[]});throw e}}let data;try{data=await body(req,12*1024*1024)}catch(e){return json(res,400,{error:e.message})}if(!Array.isArray(data.events))return json(res,400,{error:"Invalid events."});await fs.promises.mkdir(path.dirname(EVENTS_FILE),{recursive:true});await fs.promises.writeFile(EVENTS_FILE,JSON.stringify({events:data.events},null,2));return json(res,200,{events:data.events}); }
   if (req.method === "GET" && url.pathname === "/api/map-locations") { try { return json(res,200,JSON.parse(await fs.promises.readFile(MAP_LOCATIONS_FILE,"utf8"))); } catch(e) { if(e.code==="ENOENT") return json(res,200,{locations:[]}); throw e; } }

@@ -1,0 +1,449 @@
+{
+  "teams": [
+    {
+      "id": "team-1",
+      "name": "CCS HIPHOP DANCERS",
+      "category": "Volleyball",
+      "summary": "A passionate dance crew that showcases creativity, teamwork, and energy through every performance.",
+      "overview": "A passionate dance crew that showcases creativity, teamwork, and energy through every performance. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "Champions",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1793769191553-0",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-1793769191554-1",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-1793769191554-2",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-1793769191554-3",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-1793769191554-4",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-2",
+      "name": "CCS Phoenixes Esports",
+      "category": "E-sports",
+      "summary": "A competitive gaming team that combines strategy, communication, and teamwork to take on every challenge.",
+      "overview": "A competitive gaming team that combines strategy, communication, and teamwork to take on every challenge. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-3",
+      "name": "CCS BASKETBALL TEAM",
+      "category": "Basketball",
+      "summary": "A dedicated team that brings skill, determination, and teamwork to every game on the court.",
+      "overview": "A dedicated team that brings skill, determination, and teamwork to every game on the court. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-4",
+      "name": "CCS VOLLEYBALL TEAM",
+      "category": "Volleyball",
+      "summary": "A team built on trust, coordination, and sportsmanship, working together toward every point.",
+      "overview": "A team built on trust, coordination, and sportsmanship, working together toward every point. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "Champions",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-5",
+      "name": "CCS TAEKWONDO TEAM",
+      "category": "Others",
+      "summary": "A group of martial artists developing discipline, confidence, and focus through training and competition.",
+      "overview": "A group of martial artists developing discipline, confidence, and focus through training and competition. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-6",
+      "name": "CCS BADMINTON TEAM",
+      "category": "Others",
+      "summary": "Quick reflexes and smart strategies drive this team as its players challenge themselves on the court.",
+      "overview": "Quick reflexes and smart strategies drive this team as its players challenge themselves on the court. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-7",
+      "name": "CCS MOBILE LEGENDS SQUAD",
+      "category": "E-sports",
+      "summary": "A squad focused on tactical plays, team coordination, and making smart decisions in every match.",
+      "overview": "A squad focused on tactical plays, team coordination, and making smart decisions in every match. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-8",
+      "name": "CCS Chess Club",
+      "category": "Others",
+      "summary": "A community of strategic thinkers sharpening their minds through friendly matches and competitive play.",
+      "overview": "A community of strategic thinkers sharpening their minds through friendly matches and competitive play. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    },
+    {
+      "id": "team-9",
+      "name": "CCS PHOENIX PEP SQUAD",
+      "category": "Others",
+      "summary": "An energetic group that brings school spirit, excitement, and support to campus sports events.",
+      "overview": "An energetic group that brings school spirit, excitement, and support to campus sports events. The team proudly represents the College of Computer Studies (CCS), carrying the spirit and determination of our school in every game.",
+      "placement": "1st Runner Up",
+      "playerCount": "12 Players",
+      "cover": "assets/ccs-banner-crowd.png",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Klent Josh Vargas",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-2",
+          "name": "Kairo Eclarinal",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-3",
+          "name": "Zandro Papa",
+          "number": "9",
+          "position": "Middle Blocker",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-4",
+          "name": "John Lloyd Cruz",
+          "number": "9",
+          "position": "Open Hitter",
+          "image": "assets/ccs-phoenix-banner.png"
+        },
+        {
+          "id": "player-5",
+          "name": "Vishu Mariano",
+          "number": "9",
+          "position": "Libero",
+          "image": "assets/ccs-phoenix-banner.png"
+        }
+      ],
+      "joinBackground": "assets/team-join-banner.png",
+      "tryoutLink": ""
+    }
+  ],
+  "page": {
+    "title": "EXPLORE OUR TEAMS.",
+    "subtitle": "Check out these incredible CCS athletes!"
+  }
+}

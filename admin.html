@@ -29,10 +29,10 @@
           <div class="admin-brand"><img src="assets/orange-ccs-sportshub.png" alt="" /><div><strong>SportLink</strong><span>Admin dashboard</span></div><span class="admin-role-badge">ADMIN ACCOUNT</span></div>
           <button class="admin-logout" id="admin-logout" type="button">Log out</button>
         </header>
-        <nav class="admin-section-nav" aria-label="Admin pages"><a href="#news-admin">News</a><a class="is-active" href="#map-admin" aria-current="page">Map</a><a href="#events-admin">Events</a><a href="#teams-admin">Teams</a></nav>
+        <nav class="admin-section-nav" aria-label="Admin pages"><a href="#news-admin" data-admin-page="news">News</a><a class="is-active" href="#map-admin" aria-current="page" data-admin-page="map">Map</a><a href="#events-admin" data-admin-page="events">Events</a><a href="#teams-admin" data-admin-page="teams">Teams</a></nav>
         <div class="admin-content">
-          <p class="admin-eyebrow">MAP ADMIN</p>
-          <h1 id="dashboard-title">Manage map locations</h1>
+          <div class="admin-page-heading"><p class="admin-eyebrow" id="admin-page-eyebrow">MAP ADMIN</p>
+          <h1 id="dashboard-title">Manage map locations</h1></div>
           <p class="admin-subtitle" id="admin-welcome"></p>
           <article class="admin-stat"><span>CLIENT ACCOUNTS</span><strong id="client-count">—</strong></article>
           <section class="admin-users-section">
@@ -48,6 +48,14 @@
               <section class="admin-map-legend admin-schedule"><h2>▦ PUBLISHING SCHEDULE</h2><div class="admin-pin-row"><label>Start Date *<input form="event-form" name="startDate" type="date" required></label><label>End Date *<input form="event-form" name="endDate" type="date" required></label></div><div class="admin-pin-row"><label>Start Time *<input form="event-form" name="startTime" type="time" required></label><label>End Time *<input form="event-form" name="endTime" type="time" required></label></div><fieldset><legend>Status *</legend><label><input form="event-form" name="status" type="radio" value="Upcoming" checked> Upcoming</label><label><input form="event-form" name="status" type="radio" value="Ongoing"> Ongoing</label><label><input form="event-form" name="status" type="radio" value="Completed"> Completed</label></fieldset></section>
               <section class="admin-map-locations admin-publishing"><h2>⇧ PUBLISHING</h2><button id="publish-event" type="button">🚀 Publish Event</button><p id="event-status" role="status"></p></section><section class="admin-map-locations"><h2>KEY LOCATIONS <span>Common locations</span></h2><div id="admin-pin-list"></div></section>
             </div>
+          </section>
+          <section id="admin-news-page" class="admin-news-page" hidden><div class="admin-news-top"><button id="admin-create-post" type="button">CREATE POST</button></div><div id="admin-post-grid" class="admin-post-grid"></div><div id="admin-post-editor" class="admin-post-editor" hidden></div></section>
+          <section id="admin-events-page" class="admin-events-page" hidden><div class="admin-events-grid" id="admin-events-grid"></div><div id="admin-event-editor" class="admin-event-editor" hidden></div></section>
+          <section id="admin-teams-page" class="admin-teams-page" hidden>
+            <div class="admin-teams-toolbar"><p>Client page preview. Select a card to edit the team content clients see.</p><button id="admin-create-team" type="button">＋ CREATE TEAM</button></div>
+            <form id="admin-team-page-form" class="admin-team-page-settings"><label>Teams page heading<input name="title" maxlength="100" value="EXPLORE OUR TEAMS."></label><label>Intro text<input name="subtitle" maxlength="220" value="Check out these incredible CCS athletes!"></label><button type="submit">Save page text</button><span id="admin-team-page-status" role="status"></span></form>
+            <div class="admin-team-client-preview"><p class="admin-team-preview-crumb">HOME / TEAMS</p><div class="admin-team-preview-tools"><input id="admin-team-preview-search" type="search" placeholder="Search teams…" aria-label="Search the client team cards"><button type="button" disabled>SORT: <strong>FEATURED</strong></button></div><div id="admin-team-preview-filters" class="team-filters" aria-label="Client team categories"></div><h2 id="admin-team-preview-title">EXPLORE OUR TEAMS.</h2><p id="admin-team-preview-subtitle">Check out these incredible CCS athletes!</p><div id="admin-teams-grid" class="team-grid admin-team-preview-grid"></div></div>
+            <div id="admin-team-editor" class="admin-team-editor" hidden></div>
           </section>
           <section class="admin-news-editor" aria-labelledby="news-editor-title">
             <div class="admin-list-heading"><div><h2 id="news-editor-title">News and article content</h2><p>Edit the cards and article pages clients see.</p></div><button id="add-news-story" type="button">Add story</button></div>

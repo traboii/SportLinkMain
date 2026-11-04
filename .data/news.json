@@ -1,0 +1,138 @@
+{
+  "stories": [
+    {
+      "id": "story-3",
+      "title": "One team, one crowd, one unforgettable day",
+      "tag": "COMMUNITY",
+      "text": "From the first whistle to the final photo, CCS came together to celebrate sport, friendship, and school spirit.",
+      "articleTitle": "One team, one crowd, one unforgettable day",
+      "date": "October 30, 2026",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "From the first whistle to the final photo, CCS came together to celebrate sport, friendship, and school spirit.",
+      "paragraph2": "Celebrate the teamwork, dedication, and spirit of the CCS community. More highlights and photos from the event are collected below.",
+      "image": "assets/ccs-banner-crowd.png",
+      "heroImage": "assets/ccs-banner-crowd.png",
+      "gallery": [
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg",
+        "assets/ccs-campus-background.png",
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg"
+      ]
+    },
+    {
+      "id": "story-4",
+      "title": "The best moments from this season",
+      "tag": "HIGHLIGHTS",
+      "text": "A look back at the plays, the teamwork, and the memories that made this season one to remember.",
+      "articleTitle": "The best moments from this season",
+      "date": "October 30, 2026",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "A look back at the plays, the teamwork, and the memories that made this season one to remember.",
+      "paragraph2": "Celebrate the teamwork, dedication, and spirit of the CCS community. More highlights and photos from the event are collected below.",
+      "image": "assets/ccs-campus-background.png",
+      "heroImage": "assets/ccs-campus-background.png",
+      "gallery": [
+        "assets/ccs-campus-background.png",
+        "assets/sportlink-background.jpg",
+        "assets/ccs-campus-background.png",
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg"
+      ]
+    },
+    {
+      "id": "story-5",
+      "title": "CCS athletes bring the heat at the games",
+      "tag": "ATHLETICS",
+      "text": "Our Ka-Phoenix brought focus, heart, and determination to every match. Congratulations to all our competitors.",
+      "articleTitle": "CCS athletes bring the heat at the games",
+      "date": "October 30, 2026",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "Our Ka-Phoenix brought focus, heart, and determination to every match. Congratulations to all our competitors.",
+      "paragraph2": "Celebrate the teamwork, dedication, and spirit of the CCS community. More highlights and photos from the event are collected below.",
+      "image": "assets/sportlink-background.jpg",
+      "heroImage": "assets/sportlink-background.jpg",
+      "gallery": [
+        "assets/sportlink-background.jpg",
+        "assets/sportlink-background.jpg",
+        "assets/ccs-campus-background.png",
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg"
+      ]
+    },
+    {
+      "id": "story-6",
+      "title": "Celebrating the people behind the plays",
+      "tag": "COMMUNITY",
+      "text": "Coaches, volunteers, and supporters make every game day special. This win belongs to the whole CCS family.",
+      "articleTitle": "Celebrating the people behind the plays",
+      "date": "October 30, 2026",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "Coaches, volunteers, and supporters make every game day special. This win belongs to the whole CCS family.",
+      "paragraph2": "Celebrate the teamwork, dedication, and spirit of the CCS community. More highlights and photos from the event are collected below.",
+      "image": "assets/ccs-banner-crowd.png",
+      "heroImage": "assets/ccs-banner-crowd.png",
+      "gallery": [
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg",
+        "assets/ccs-campus-background.png",
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg"
+      ]
+    },
+    {
+      "id": "story-7",
+      "title": "Game day: the CCS spirit in full force",
+      "tag": "GAME DAY",
+      "text": "The sidelines were full, the energy was high, and our community showed what it means to stand together.",
+      "articleTitle": "Game day: the CCS spirit in full force",
+      "date": "October 30, 2026",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "The sidelines were full, the energy was high, and our community showed what it means to stand together.",
+      "paragraph2": "Celebrate the teamwork, dedication, and spirit of the CCS community. More highlights and photos from the event are collected below.",
+      "image": "assets/ccs-campus-background.png",
+      "heroImage": "assets/ccs-campus-background.png",
+      "gallery": [
+        "assets/ccs-campus-background.png",
+        "assets/sportlink-background.jpg",
+        "assets/ccs-campus-background.png",
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg"
+      ]
+    },
+    {
+      "id": "story-8",
+      "title": "A season powered by teamwork",
+      "tag": "TEAMS",
+      "text": "Every practice and every point brought us closer. Here are a few moments worth celebrating again.",
+      "articleTitle": "A season powered by teamwork",
+      "date": "October 30, 2026",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "Every practice and every point brought us closer. Here are a few moments worth celebrating again.",
+      "paragraph2": "Celebrate the teamwork, dedication, and spirit of the CCS community. More highlights and photos from the event are collected below.",
+      "image": "assets/ccs-banner-crowd.png",
+      "heroImage": "assets/ccs-banner-crowd.png",
+      "gallery": [
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg",
+        "assets/ccs-campus-background.png",
+        "assets/ccs-banner-crowd.png",
+        "assets/sportlink-background.jpg"
+      ]
+    },
+    {
+      "id": "story-1793669513306",
+      "title": "New CCS story",
+      "tag": "NEWS",
+      "text": "",
+      "articleTitle": "New CCS story",
+      "date": "",
+      "author": "CCS Sports Hub Editorial Team",
+      "paragraph": "",
+      "paragraph2": "",
+      "image": "assets/ccs-banner-crowd.png",
+      "heroImage": "assets/ccs-banner-crowd.png",
+      "gallery": []
+    }
+  ]
+}
