@@ -11,7 +11,7 @@
   <body class="admin-page">
     <main class="page-shell admin-shell">
       <section class="login-card admin-login" id="admin-login-card" aria-labelledby="admin-title">
-        <div class="brand-mark"><img src="assets/orange-ccs-sportshub.png" alt="SportLink" /></div>
+        <div class="brand-mark"><img src="assets/phoenix-symbol.png" alt="CCS Phoenix symbol" /></div>
         <h1 id="admin-title">Admin login</h1>
         <p class="admin-caption">SportLink management</p>
         <form class="login-form" id="admin-login-form">
@@ -26,7 +26,7 @@
 
       <section class="admin-dashboard" id="admin-dashboard" hidden aria-labelledby="dashboard-title">
         <header class="admin-header">
-          <div class="admin-brand"><img src="assets/orange-ccs-sportshub.png" alt="" /><div><strong>SportLink</strong><span>Admin dashboard</span></div><span class="admin-role-badge">ADMIN ACCOUNT</span></div>
+          <div class="admin-brand"><img src="assets/phoenix-symbol.png" alt="CCS Phoenix symbol" /><div><strong>SportLink</strong><span>Admin dashboard</span></div><span class="admin-role-badge">ADMIN ACCOUNT</span></div>
           <button class="admin-logout" id="admin-logout" type="button">Log out</button>
         </header>
         <nav class="admin-section-nav" aria-label="Admin pages"><a href="#news-admin" data-admin-page="news">News</a><a class="is-active" href="#map-admin" aria-current="page" data-admin-page="map">Map</a><a href="#events-admin" data-admin-page="events">Events</a><a href="#teams-admin" data-admin-page="teams">Teams</a></nav>
@@ -50,7 +50,7 @@
             </div>
           </section>
           <section id="admin-news-page" class="admin-news-page" hidden><div class="admin-news-top"><button id="admin-create-post" type="button">CREATE POST</button></div><div id="admin-post-grid" class="admin-post-grid"></div><div id="admin-post-editor" class="admin-post-editor" hidden></div></section>
-          <section id="admin-events-page" class="admin-events-page" hidden><div class="admin-events-grid" id="admin-events-grid"></div><div id="admin-event-editor" class="admin-event-editor" hidden></div></section>
+          <section id="admin-events-page" class="admin-events-page" hidden><div class="admin-events-toolbar"><p>Manage published events or create a new event for the client Events page.</p><button id="admin-create-event" type="button">＋ CREATE EVENT</button></div><div class="admin-events-grid" id="admin-events-grid"></div><div id="admin-event-editor" class="admin-event-editor" hidden></div></section>
           <section id="admin-teams-page" class="admin-teams-page" hidden>
             <div class="admin-teams-toolbar"><p>Client page preview. Select a card to edit the team content clients see.</p><button id="admin-create-team" type="button">＋ CREATE TEAM</button></div>
             <form id="admin-team-page-form" class="admin-team-page-settings"><label>Teams page heading<input name="title" maxlength="100" value="EXPLORE OUR TEAMS."></label><label>Intro text<input name="subtitle" maxlength="220" value="Check out these incredible CCS athletes!"></label><button type="submit">Save page text</button><span id="admin-team-page-status" role="status"></span></form>

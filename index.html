@@ -12,10 +12,10 @@
     <main class="page-shell" aria-labelledby="welcome-title">
       <div class="mobile-athletes" aria-hidden="true"></div>
       <section class="login-card" id="auth-card" aria-label="SportLink login">
-        <div class="brand-mark"><img src="assets/orange-ccs-sportshub.png" alt="SportLink" /></div>
+        <div class="brand-mark"><img src="assets/phoenix-symbol.png" alt="CCS Phoenix symbol" /></div>
         <h1 id="welcome-title">Welcome!</h1>
         <div class="profile-mark" aria-hidden="true"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="white" stroke-width="3" /><circle cx="36" cy="25" r="11" fill="white" /><path d="M16 59c3-13 11-20 20-20s17 7 20 20" fill="white" /></svg></div>
-        <form class="login-form" id="login-form">
+        <form class="login-form" id="login-form" method="post">
           <p class="auth-heading" id="auth-heading">Log in to your account</p>
           <label class="sr-only" for="email">Email</label>
           <input id="email" name="email" type="email" autocomplete="username" placeholder="Email" required />
@@ -33,7 +33,7 @@
     <main class="news-page" id="landing-page" hidden>
       <header class="site-header">
         <a class="site-brand" href="#news" aria-label="CCS Sports Hub home">
-          <img src="assets/orange-ccs-sportshub.png" alt="" />
+          <img src="assets/phoenix-symbol.png" alt="" />
           <span>CCS SPORTS<br />HUB</span>
         </a>
         <nav class="main-nav" aria-label="Main navigation">
@@ -66,10 +66,11 @@
           <article class="featured-story">
             <button class="feature-image story-open" type="button" data-story="Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat" aria-label="Read the featured taekwondo story"><span>CCS ATHLETICS</span></button>
             <div class="feature-copy">
-              <p class="story-kicker">FEATURED STORY <span>•</span> CCS STUDENT COUNCIL</p>
+              <p class="story-kicker feature-kicker">FEATURED STORY <span>•</span> CCS STUDENT COUNCIL</p>
               <h2>Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat—showing power, focus, and determination in every bout</h2>
-              <button class="round-arrow story-open" type="button" data-story="Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat" aria-label="Read the featured story"><span aria-hidden="true">→</span></button>
-              <div class="story-byline"><img src="assets/orange-ccs-sportshub.png" alt="" /><span>CCS Student Council</span></div>
+              <p class="feature-summary" aria-live="polite"></p>
+              <button class="round-arrow story-open" type="button" data-story="Taekwondo: Our Ka-Phoenix stepped onto the mat and brought the heat" aria-label="Show next news story"><span aria-hidden="true">→</span></button>
+              <div class="story-byline"><img src="assets/phoenix-symbol.png" alt="" /><span>CCS Student Council</span></div>
             </div>
           </article>
           <div class="story-grid" id="story-grid"></div>
@@ -86,10 +87,10 @@
             <h2>Attached Photos</h2>
             <div class="article-photos" id="article-photos" aria-label="Article photos">
               <button class="article-photo is-selected" type="button" data-image="assets/ccs-banner-crowd.png" aria-label="Show sports event photo"><img src="assets/ccs-banner-crowd.png" alt="CCS sports event" /></button>
-              <button class="article-photo" type="button" data-image="assets/sportlink-background.jpg" aria-label="Show athletes photo"><img src="assets/sportlink-background.jpg" alt="CCS athletes" /></button>
+              <button class="article-photo" type="button" data-image="assets/sportlink-site-background-v2.png" aria-label="Show athletes photo"><img src="assets/sportlink-site-background-v2.png" alt="CCS athletes" /></button>
               <button class="article-photo" type="button" data-image="assets/ccs-campus-background.png" aria-label="Show campus field photo"><img src="assets/ccs-campus-background.png" alt="CCS campus field" /></button>
               <button class="article-photo" type="button" data-image="assets/ccs-banner-crowd.png" aria-label="Show team photo"><img src="assets/ccs-banner-crowd.png" alt="CCS team" /></button>
-              <button class="article-photo" type="button" data-image="assets/sportlink-background.jpg" aria-label="Show sports highlights photo"><img src="assets/sportlink-background.jpg" alt="CCS sports highlights" /></button>
+              <button class="article-photo" type="button" data-image="assets/sportlink-site-background-v2.png" aria-label="Show sports highlights photo"><img src="assets/sportlink-site-background-v2.png" alt="CCS sports highlights" /></button>
             </div>
             <hr />
             <h2>Related News</h2>
@@ -129,6 +130,7 @@
           <p class="events-intro">Join the action! Check out the latest CCS sports<br class="desktop-break"> events, competitions, and activities.</p>
           <div class="events-grid" id="events-grid"></div>
         </section>
+        <section class="event-detail-page" id="event-detail-page" hidden aria-labelledby="event-detail-title"></section>
         <section id="teams-page" class="teams-page" hidden aria-labelledby="teams-title">
           <p class="breadcrumb">HOME / TEAMS</p><div class="team-tools"><input id="team-search" aria-label="Search teams" type="search"><button id="team-sort" type="button">SORT: <strong>FEATURED</strong></button></div>
           <div class="team-filters" role="group" aria-label="Filter teams"><button class="team-filter is-active" data-filter="All">ALL TEAMS</button><button class="team-filter" data-filter="E-sports">E-SPORTS</button><button class="team-filter" data-filter="Basketball">Basketball</button><button class="team-filter" data-filter="Swimming">Swimming</button><button class="team-filter" data-filter="Volleyball">Volleyball</button><button class="team-filter" data-filter="Others">Others</button></div>
