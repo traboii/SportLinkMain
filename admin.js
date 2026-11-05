@@ -4,8 +4,12 @@ const loginForm = document.querySelector("#admin-login-form");
 const loginMessage = document.querySelector("#admin-message");
 
 async function api(url, options = {}) {
-  const response = await fetch(url, { credentials: "same-origin", ...options });
-  const data = await response.json();
+  let response;
+  try { response = await fetch(url, { credentials: "same-origin", ...options }); }
+  catch { throw new Error("Cannot reach the SportLink server. Open the app from http://127.0.0.1:3000 and make sure the Node server is running."); }
+  if (!(response.headers.get("content-type") || "").includes("application/json")) throw new Error(`The server returned HTML instead of JSON (HTTP ${response.status}). Use the Node server at http://127.0.0.1:3000.`);
+  let data;
+  try { data = await response.json(); } catch { throw new Error("The server returned an invalid JSON response."); }
   if (!response.ok) throw new Error(data.error || "Request failed.");
   return data;
 }

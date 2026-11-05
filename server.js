@@ -84,8 +84,10 @@ async function handleApi(req, res, url) {
   if (req.method === "POST" && url.pathname === "/api/admin/login") {
     let data; try { data = await body(req); } catch (e) { return json(res, 400, { error: e.message }); }
     const email = String(data.email || "").trim().toLowerCase();
+    const password = String(data.password || "");
+    if (!email || !password) return json(res, 400, { error: "Enter both email and password." });
     const user = (await readUsers()).find(entry => entry.email === email && entry.role === "admin" && entry.passwordHash);
-    if (!user || !validPassword(String(data.password || ""), user)) return json(res, 401, { error: "Admin email or password is incorrect." });
+    if (!user || !validPassword(password, user)) return json(res, 401, { error: "Admin email or password is incorrect." });
     setSession(res, user); return json(res, 200, { user: { ...publicUser(user), role: "admin" } });
   }
   if (req.method === "GET" && url.pathname === "/api/admin/users") {
@@ -127,8 +129,10 @@ async function handleApi(req, res, url) {
     users.push(user); await saveUsers(users); setSession(res, user); return json(res, 201, { user: { ...publicUser(user), role: "client" } });
   }
   if (url.pathname === "/api/login") {
-    const email = String(data.email || "").trim().toLowerCase(), user = users.find(u => u.email === email && u.passwordHash);
-    if (!user || !validPassword(String(data.password || ""), user)) return json(res, 401, { error: "Email or password is incorrect." });
+    const email = String(data.email || "").trim().toLowerCase(), password = String(data.password || "");
+    if (!email || !password) return json(res, 400, { error: "Enter both email and password." });
+    const user = users.find(u => u.email === email && u.passwordHash);
+    if (!user || !validPassword(password, user)) return json(res, 401, { error: "Email or password is incorrect." });
     setSession(res, user); return json(res, 200, { user: { ...publicUser(user), role: user.role || "client" } });
   }
   const clientId = GOOGLE_CLIENT_ID;

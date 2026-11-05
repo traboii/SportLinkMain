@@ -35,8 +35,13 @@ function showMessage(text, isError = true) {
 }
 
 async function request(url, data) {
-  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "same-origin", body: JSON.stringify(data) });
-  const result = await response.json();
+  let response;
+  try { response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, credentials: "same-origin", body: JSON.stringify(data) }); }
+  catch { throw Error("Cannot reach the SportLink server. Open the app from http://127.0.0.1:3000 and make sure the Node server is running."); }
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) throw Error(`The server returned HTML instead of JSON (HTTP ${response.status}). Make sure the frontend is using the Node server at http://127.0.0.1:3000.`);
+  let result;
+  try { result = await response.json(); } catch { throw Error("The server returned an invalid JSON response."); }
   if (!response.ok) throw Error(result.error || "Something went wrong.");
   return result;
 }
@@ -355,8 +360,4 @@ fetch("/api/config").then(response => response.json()).then(({ googleClientId })
   initialize();
 }).catch(() => { document.querySelector("#google-note").textContent = "Google sign-in is unavailable."; });
 
-const localDebugUser = ["localhost", "127.0.0.1"].includes(window.location.hostname)
-  ? { email: "markaronilagan22@gmail.com", name: "Mark Aron Ilagan", provider: "debug" }
-  : null;
-if (localDebugUser) showUser(localDebugUser);
 fetch("/api/session", { credentials: "same-origin" }).then(response => response.json()).then(({ user }) => { if (user) showUser(user); }).catch(() => {});
